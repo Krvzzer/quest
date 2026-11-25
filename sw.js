@@ -1,10 +1,9 @@
-
-const VERSION = 'nq-v10';
+const VERSION = 'nq10';
 
 const FILES = [
   './',
   './index.html',
-  './css/style.css',
+'./css/style.css?v=nq10',
   './js/main.js',
   './js/ui.js',
   './js/engine.js',
