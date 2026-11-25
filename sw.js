@@ -1,5 +1,5 @@
 
-const VERSION = 'nq-v8';
+const VERSION = 'nq-v9';
 
 const FILES = [
   './',
@@ -11,7 +11,12 @@ const FILES = [
   './js/store.js',
   './js/sync.js',
   './js/data.js',
-  './js/supabase-config.js'
+  './js/supabase-config.js',
+  './manifest.webmanifest',
+  './icons/icon-192.png',
+  './icons/icon-512.png',
+  './icons/icon-maskable-512.png',
+  './icons/apple-touch-icon.png'
 ];
 
 self.addEventListener('install', event => {
