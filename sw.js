@@ -3,7 +3,7 @@ const VERSION = 'nq13';
 const FILES = [
   './',
   './index.html',
-  './css/style.css?v=nq12',
+  './css/style.css?v=nq13',
   './js/main.js',
   './js/ui.js',
   './js/engine.js',
@@ -14,8 +14,7 @@ const FILES = [
   './manifest.webmanifest',
   './icons/kuru.svg',
   './icons/kuru-guide.svg',
-  
-  
+
   './icons/apple-touch-icon.png'
 ];
 
