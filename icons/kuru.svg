@@ -1,1 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#293858"/><stop offset="1" stop-color="#10172b"/></linearGradient><linearGradient id="f" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#fff8ed"/><stop offset="1" stop-color="#eadccf"/></linearGradient></defs><rect width="512" height="512" rx="116" fill="url(#b)"/><circle cx="395" cy="112" r="45" fill="#eda9c1" opacity=".18"/><path d="M93 218 125 70Q132 47 151 65L224 132Q256 118 288 132L361 65Q380 47 387 70L419 218Q438 258 423 319 397 423 256 449 115 423 89 319 74 258 93 218Z" fill="url(#f)" stroke="#d7c8bd" stroke-width="8" stroke-linejoin="round"/><path d="m119 195 24-103 58 65q-42 5-82 38Zm274 0L369 92l-58 65q42 5 82 38Z" fill="#eda9c1"/><path d="M163 272q28-30 57 0M292 272q28-30 57 0" fill="none" stroke="#26304b" stroke-width="17" stroke-linecap="round"/><path d="M238 310q18 17 36 0" fill="none" stroke="#26304b" stroke-width="13" stroke-linecap="round"/><path d="M250 290q6-8 12 0l-6 9Z" fill="#26304b"/><path d="M365 365q72 4 78-57" fill="none" stroke="#eda9c1" stroke-width="25" stroke-linecap="round"/><path d="M365 365q72 4 78-57" fill="none" stroke="#f5c5d4" stroke-width="8" stroke-linecap="round" opacity=".8"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Kuru</title>
+  <defs>
+    <linearGradient id="fur" x1="0" y1="0" x2=".82" y2="1"><stop stop-color="#fff4e5"/><stop offset="1" stop-color="#f0d9c8"/></linearGradient>
+    <linearGradient id="ear" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#f6a6b9"/><stop offset=".58" stop-color="#d76b91"/><stop offset="1" stop-color="#682d50"/></linearGradient>
+    <linearGradient id="eye" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#354d78"/><stop offset="1" stop-color="#111b36"/></linearGradient>
+  </defs>
+  <path d="M91 270 105 76Q108 29 145 61L235 171Q256 163 277 171L367 61Q404 29 407 76L421 270Q442 326 418 370 374 449 256 455 138 449 94 370 70 326 91 270Z" fill="url(#fur)" stroke="#d8bcae" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M116 255 130 91Q132 73 147 88L219 185Q165 198 116 255Z" fill="url(#ear)"/><path d="M396 255 382 91Q380 73 365 88L293 185Q347 198 396 255Z" fill="url(#ear)"/>
+  <path d="M142 211 151 111 196 180Q167 190 142 211ZM370 211 361 111 316 180Q345 190 370 211Z" fill="#f8c2cb" opacity=".6"/>
+  <ellipse cx="171" cy="323" rx="35" ry="17" fill="#e98fa8" opacity=".28"/><ellipse cx="341" cy="323" rx="35" ry="17" fill="#e98fa8" opacity=".28"/>
+  <path d="M156 283Q181 257 207 282M305 282Q331 257 356 283" fill="none" stroke="#d9bda9" stroke-width="7" stroke-linecap="round" opacity=".8"/>
+  <path d="M166 304Q187 278 208 304 210 331 187 337 164 333 166 304ZM304 304Q325 278 346 304 348 331 325 337 302 333 304 304Z" fill="url(#eye)"/>
+  <ellipse cx="184" cy="300" rx="7" ry="10" fill="#fff"/><ellipse cx="322" cy="300" rx="7" ry="10" fill="#fff"/>
+  <path d="M245 346Q256 338 267 346L256 357Z" fill="#26304b"/><path d="M256 357Q247 371 236 361M256 357Q265 371 276 361" fill="none" stroke="#26304b" stroke-width="5" stroke-linecap="round"/>
+  <g transform="translate(155 208)"><path d="M0-30Q13-27 12-12 27-18 32-4 28 9 13 9 18 24 4 31-9 27-9 12-24 18-30 4-27-9-12-9-18-24 0-30Z" fill="#ed9ab4" stroke="#f8c8d1" stroke-width="3"/><circle r="9" fill="#f8d9a6"/><circle r="4" fill="#c87996"/></g>
+</svg>
