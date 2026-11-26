@@ -1,8 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320">
-  <path d="M54 126 72 32q4-18 19-5l46 42q23-10 46 0l46-42q15-13 19 5l18 94q20 29 10 73-18 78-116 99-98-21-116-99-10-44 10-73Z" fill="#f5ecda" stroke="#d9c7bd" stroke-width="5" stroke-linejoin="round"/>
-  <path d="M70 110 84 42q2-8 10-1l32 30q-31 10-56 39Zm180 0-14-68q-2-8-10-1l-32 30q31 10 56 39Z" fill="#eda9c1"/>
-  <path d="M100 155q19-20 38 0m45 0q19-20 38 0" fill="none" stroke="#202b46" stroke-width="9" stroke-linecap="round"/>
-  <path d="M151 182q9 8 18 0" fill="none" stroke="#202b46" stroke-width="7" stroke-linecap="round"/>
-  <path d="M237 224q52 6 59-35" fill="none" stroke="#eda9c1" stroke-width="19" stroke-linecap="round"/>
-  <path d="M78 222q-16 34-48 25 20 22 54 4" fill="#eda9c1"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" role="img" aria-labelledby="title">
+  <title id="title">Kuru</title>
+  <g id="head">
+    <path d="M54 126 72 34Q75 18 88 29L132 68Q160 57 188 68L232 29Q245 18 248 34L266 126Q280 151 273 185 255 274 160 296 65 274 47 185 40 151 54 126Z"
+      fill="#f5ecda" stroke="#d9c7bd" stroke-width="5" stroke-linejoin="round"/>
+  </g>
+  <g id="inner-ears" fill="#eda9c1">
+    <path d="M70 111 84 43Q86 35 94 42L128 72Q96 83 70 111Z"/>
+    <path d="M250 111 236 43Q234 35 226 42L192 72Q224 83 250 111Z"/>
+  </g>
+  <g id="face" fill="none" stroke="#202b46" stroke-linecap="round">
+    <path d="M100 155Q119 135 138 155M182 155Q201 135 220 155" stroke-width="9"/>
+    <path d="M151 182Q160 190 169 182" stroke-width="7"/>
+  </g>
+  <path d="M237 224Q289 230 296 189" fill="none" stroke="#eda9c1" stroke-width="19" stroke-linecap="round"/>
+  <path d="M78 222Q62 256 30 247 50 269 84 251Z" fill="#eda9c1"/>
 </svg>
