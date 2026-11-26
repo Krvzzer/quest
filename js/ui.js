@@ -6,6 +6,15 @@ import * as Sync from './sync.js';
 
 const $=s=>document.querySelector(s),app=$('#app');
 const KURU_MARK = '<svg class="kuru-mark" viewBox="0 0 64 64" role="img" aria-label="Kuru"><path d="M10 25 17 5 29 17Q32 15 35 17L47 5 54 26Q58 32 55 41 51 55 32 59 13 55 9 41 6 32 10 25Z" fill="#f5ecda"/><path d="m14 23 5-12 7 12M50 23l-5-12-7 12" fill="#eda9c1"/><path d="M20 34q3-3 6 0M38 34q3-3 6 0" fill="none" stroke="#20213a" stroke-width="2.8" stroke-linecap="round"/><path d="M29 41q3 3 6 0" fill="none" stroke="#20213a" stroke-width="2.4" stroke-linecap="round"/><path d="M48 48q9 1 10-7" fill="none" stroke="#eda9c1" stroke-width="4" stroke-linecap="round"/></svg>';
+const WORLD_ART={1:'hiragana',2:'dakuten',3:'combinations',4:'katakana',5:'vocabulary',6:'conversation'};
+const KURU_TIPS={
+  1:'Vamos a conocer las formas básicas, una por una. Sin apuro: primero reconocerlas.',
+  2:'Ahora escuchá el pequeño cambio de sonido. La marca modifica la voz del kana.',
+  3:'Dos sonidos pueden unirse y formar una lectura nueva. Mirá cada combinación con calma.',
+  4:'Este mundo presenta otro conjunto de caracteres. Los vamos a aprender paso a paso.',
+  5:'Las letras empiezan a convertirse en palabras. Acá el contexto importa tanto como la lectura.',
+  6:'Es momento de usar lo aprendido en intercambios reales. Leé, respondé y probá.'
+};
 const bar=p=>`<i class="bar" style="--p:${Math.round(p*100)}%"></i>`;
 let S=null,tm=null,cur=1;
 
@@ -76,7 +85,9 @@ export function map(){
   S=null;const d=E.day();
   const ws=WORLDS.map(w=>{
     const u=E.unlocked(w),f=E.frac(w);
-    return`<button class="world${u?'':' lock'}" ${u?`data-a="world:${w.id}"`:'disabled'}><span class="wi">${u?w.e:'🔒'}</span><b>${w.n}</b><small>${u?w.d:'Dominá el 80% del mundo anterior'}</small>${bar(f)}<em>${Math.round(f*100)}%</em></button>`;
+    return`<button class="world${u?'':' lock'}" ${u?`data-a="world:${w.id}"`:'disabled'}>
+      <span class="world-art-wrap"><img class="world-art" src="./icons/world-${WORLD_ART[w.id]}.svg" alt="" loading="lazy">${u?'':'<i class="world-lock">🔒</i>'}</span>
+      <b>${w.n}</b><small>${u?w.d:'Dominá el 80% del mundo anterior'}</small>${bar(f)}<em>${Math.round(f*100)}%</em></button>`;
   }).join('');
   const ms=E.MISSIONS.map(m=>`<li class="${d.paid[m.k]?'done':''}">${m.t}<span>${Math.min(d[m.k],m.n)}/${m.n}</span></li>`).join('');
   view(`<section class="kiko"><div class="fox"><img class="kuru-guide" src="./icons/kuru-guide.svg" alt="Kuru, tu guía"></div><p>${E.advice()}</p></section>
@@ -89,7 +100,10 @@ export function map(){
 function world(id){
   cur=id;const w=WORLDS[id-1],ms=MODES.filter(m=>id===6?!['read','combat','memory'].includes(m[0]):id<5||!['combat','memory'].includes(m[0]));
   const leg=`<div class="legend">${LEGEND.map(([c,t])=>`<span><i class="chip ${c}"></i>${t}</span>`).join('')}</div>`;
-  view(`<button class="back" data-a="go:map">← Mapa</button><h2>${w.e} Mundo ${id} · ${w.n}</h2><p class="muted">Tocá un bloque coloreado para ver su lectura. Más color = más dominado.</p>${leg}${chips(w)}
+  view(`<button class="back" data-a="go:map">← Mapa</button>
+  <section class="world-hero"><img src="./icons/world-${WORLD_ART[id]}.svg" alt="" class="world-hero-art"><div><span class="eyebrow">MUNDO ${id} / 06</span><h2>${w.n}</h2><p class="muted">${w.d}</p></div></section>
+  <section class="kuru-mentor"><img src="./icons/kuru-guide.svg" alt="Kuru" class="mentor-kuru"><p>${KURU_TIPS[id]}</p></section>
+  <p class="muted world-instruction">Tocá un bloque para ver su lectura. Más color = más dominado.</p>${leg}${chips(w)}
   <div class="modes">${ms.map(m=>`<button class="mode" data-a="play:${m[0]}:${id}"><b>${m[1]}</b><small>${m[2]}</small></button>`).join('')}</div>`);
 }
 
