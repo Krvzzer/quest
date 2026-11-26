@@ -1014,7 +1014,7 @@ body {
 #app{width:min(1120px,100%);padding:clamp(28px,5vw,58px) clamp(18px,4vw,42px) 88px}
 .brand{gap:12px;padding:5px 8px 5px 2px;font-size:.94rem;letter-spacing:.14em;text-transform:uppercase}
 .brand b{font-weight:800}
-.kuru-mark{display:block;width:34px;height:34px;flex:none;filter:drop-shadow(0 3px 8px rgba(237,169,193,.18))}
+.kuru-mark{display:block;width:38px;height:38px;flex:none;object-fit:contain;filter:drop-shadow(0 3px 9px rgba(237,169,193,.22))}
 .lvl{gap:10px;max-width:330px;font-size:.78rem;letter-spacing:.08em;color:var(--mut)}
 .lvl .bar{max-width:142px;height:6px;background:rgba(174,184,208,.18)}
 .lvl small{font-size:.75rem}
