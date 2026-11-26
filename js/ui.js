@@ -5,32 +5,37 @@ import * as E from './engine.js';
 import * as Sync from './sync.js';
 
 const $=s=>document.querySelector(s),app=$('#app');
-const KURU_MARK = '<svg class="kuru-mark" viewBox="0 0 64 64" role="img" aria-label="Kuru"><path d="M10 25 17 5 29 17Q32 15 35 17L47 5 54 26Q58 32 55 41 51 55 32 59 13 55 9 41 6 32 10 25Z" fill="#f5ecda"/><path d="m14 23 5-12 7 12M50 23l-5-12-7 12" fill="#eda9c1"/><path d="M20 34q3-3 6 0M38 34q3-3 6 0" fill="none" stroke="#20213a" stroke-width="2.8" stroke-linecap="round"/><path d="M29 41q3 3 6 0" fill="none" stroke="#20213a" stroke-width="2.4" stroke-linecap="round"/><path d="M48 48q9 1 10-7" fill="none" stroke="#eda9c1" stroke-width="4" stroke-linecap="round"/></svg>';
 const bar=p=>`<i class="bar" style="--p:${Math.round(p*100)}%"></i>`;
 let S=null,tm=null,cur=1;
 
 const MODES=[
-  ['mix','総合練習','Práctica adaptativa'],
-  ['quick','読み取り','Elegí la pronunciación'],
-  ['read','書き取り','Escribí en romaji'],
-  ['combat','対決','Kana parecidos'],
-  ['build','言葉づくり','Ordená sílabas'],
-  ['survival','サバイバル','3 vidas, tiempo límite'],
-  ['memory','記憶','Uní kana y sonido']
+  ['mix','Entrenar','Mezcla adaptativa'],
+  ['quick','Reconocimiento rápido','Elegí la pronunciación'],
+  ['read','Lectura libre','Escribí en romaji'],
+  ['combat','Combate','Kana parecidos'],
+  ['build','Construir palabras','Ordená sílabas'],
+  ['survival','Supervivencia','3 vidas, tiempo límite'],
+  ['memory','Memoria visual','Uní kana y sonido']
 ];
 const MODE_NAME=Object.fromEntries([...MODES.map(m=>[m[0],m[1]]),['exam','Examen final']]);
 
 const LEGEND=[
-  ['s0','未学習'],
-  ['s1','初級'],
-  ['s2','練習中'],
-  ['s3','上級'],
-  ['s4','あと少し'],
-  ['s5','習得']
+  ['s0','Sin práctica'],
+  ['s1','Inicial'],
+  ['s2','En camino'],
+  ['s3','Avanzado'],
+  ['s4','Casi listo'],
+  ['s5','Dominado']
 ];
 
 export function init(){
-  // La atmósfera nocturna se resuelve con capas de luz CSS.
+  const p=$('.petals');
+  for(let i=0;i<8;i++){
+    const s=document.createElement('span');
+    s.textContent='🌸';
+    s.style.cssText=`left:${i*13+3}%;animation-delay:${-i*2.3}s;animation-duration:${16+i%3*4}s`;
+    p.append(s);
+  }
   document.addEventListener('click',e=>{
     const b=e.target.closest('[data-a]');
     if(!b)return;
@@ -67,7 +72,7 @@ export function init(){
 
 function header(){
   const s=get(),L=E.level(s.xp);
-  $('#top').innerHTML=`<button class="brand" data-a="go:map">${KURU_MARK}<b>NIPPON QUEST</b></button><div class="lvl"><span>段位 ${L}</span>${bar(E.xpIn(s.xp))}<small>${s.xp} XP</small></div><nav><button data-a="go:map">せかい</button><button data-a="go:stats">きろく</button></nav>`;
+  $('#top').innerHTML=`<button class="brand" data-a="go:map">🦊 <b>Nippon Quest</b></button><div class="lvl">Nv ${L}${bar(E.xpIn(s.xp))}<small>${s.xp} XP</small></div><nav><button data-a="go:map">Mapa</button><button data-a="go:stats">Progreso</button></nav>`;
 }
 
 const view=h=>{clearInterval(tm);header();app.innerHTML=h;window.scrollTo(0,0)};
@@ -79,10 +84,10 @@ export function map(){
     return`<button class="world${u?'':' lock'}" ${u?`data-a="world:${w.id}"`:'disabled'}><span class="wi">${u?w.e:'🔒'}</span><b>${w.n}</b><small>${u?w.d:'Dominá el 80% del mundo anterior'}</small>${bar(f)}<em>${Math.round(f*100)}%</em></button>`;
   }).join('');
   const ms=E.MISSIONS.map(m=>`<li class="${d.paid[m.k]?'done':''}">${m.t}<span>${Math.min(d[m.k],m.n)}/${m.n}</span></li>`).join('');
-  view(`<section class="kiko"><div class="fox">${KURU_MARK}</div><p>${E.advice()}</p></section>
-  <h2>せかい</h2><div class="worlds">${ws}</div>
-  <div class="two"><section class="panel"><h3>今日の目標</h3><ul class="missions">${ms}</ul></section>
-  <section class="panel"><h3>特別な練習</h3><div class="stack"><button class="btn" data-a="play:exam:all">最終試験 · 20</button><button class="btn alt" data-a="play:survival:all">Supervivencia</button><button class="btn alt" data-a="play:mix:all">Repaso de hoy</button></div>
+  view(`<section class="kiko"><div class="fox">🦊</div><p>${E.advice()}</p></section>
+  <h2>Mundos</h2><div class="worlds">${ws}</div>
+  <div class="two"><section class="panel"><h3>Misiones de hoy</h3><ul class="missions">${ms}</ul></section>
+  <section class="panel"><h3>Desafíos generales</h3><div class="stack"><button class="btn" data-a="play:exam:all">Examen final (20)</button><button class="btn alt" data-a="play:survival:all">Supervivencia</button><button class="btn alt" data-a="play:mix:all">Repaso de hoy</button></div>
   <p class="muted"><b>Examen:</b> 20 preguntas mezcladas de todos los kana que tenés abiertos; con 90% o más ganás un bonus.<br><b>Supervivencia:</b> 3 vidas y tiempo límite; mide cuánto retenés.<br><b>Repaso:</b> Entrenar con todo lo desbloqueado, priorizando lo que toca repasar.</p></section></div>`);
 }
 
@@ -116,8 +121,8 @@ function hud(){
 function draw(){
   const q=S.q;let body='';
   if(q.opts)body=`<div class="opts${q.opts[0].glyph?' two':''}">${q.opts.map((o,i)=>`<button class="opt${o.glyph?' glyph':''}" data-a="opt:${i}"><kbd>${i+1}</kbd><span>${o.label}</span><span></span></button>`).join('')}</div>`;
-  else if(q.mode==='read')body=`<div class="row"><input id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="romaji を入力"><button class="btn" data-a="chk">確認</button></div>`;
-  else body=`<div class="built" id="built"></div><div class="opts syl">${q.shuf.map((s,i)=>`<button class="opt glyph" data-a="syl:${i}">${s}</button>`).join('')}</div><button class="btn alt" data-a="clr">消す</button>`;
+  else if(q.mode==='read')body=`<div class="row"><input id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="romaji"><button class="btn" data-a="chk">Comprobar</button></div>`;
+  else body=`<div class="built" id="built"></div><div class="opts syl">${q.shuf.map((s,i)=>`<button class="opt glyph" data-a="syl:${i}">${s}</button>`).join('')}</div><button class="btn alt" data-a="clr">Borrar</button>`;
   app.innerHTML=`${hud()}<section class="card" id="card"><div class="stamp">${WORLDS[(typeof S.w==='number'?S.w:1)-1].e}</div><div class="big${q.mode==='quick'&&q.it.kind==='part'?' long':''}">${q.big}</div><p class="sub">${q.sub}</p>${body}<div id="fb"></div></section>`;
   const a=$('#ans');a&&a.focus();
 }
@@ -170,7 +175,7 @@ function answer(ok,x){
     if(S.q.opts){S.q.opts[i].ok&&b.classList.add('right');i===x.idx&&!ok&&b.classList.add('wrong')}
   });
   const c=$('#card');c.classList.add(ok?'pop':'shake');
-  $('#fb').innerHTML=`<div class="fb ${ok?'good':'bad'}"><b>${ok?'¡Bien! +'+g+' XP':'Todavía no. '+g+' XP'}</b><p>${E.explain(S.q,x.picked)}</p><button class="btn" data-a="next">次へ</button></div>`;
+  $('#fb').innerHTML=`<div class="fb ${ok?'good':'bad'}"><b>${ok?'¡Bien! +'+g+' XP':'Todavía no. '+g+' XP'}</b><p>${E.explain(S.q,x.picked)}</p><button class="btn" data-a="next">Seguir</button></div>`;
   if(ok){c.insertAdjacentHTML('beforeend',`<span class="gain">+${g}</span>`);if(S.mode==='survival')setTimeout(()=>S&&S.done&&$('[data-a="next"]')&&nextQ(),700)}
   const n=$('[data-a="next"]');n&&n.focus();
 }
@@ -203,7 +208,7 @@ function end(){
   header();
   const ex=r.pct!==null?(r.pct>=90?'¡Examen aprobado! +100 XP de bonus.':'Todavía no llegás al 90%. Los errores ya se sumaron a tu plan de práctica.'):'';
   app.innerHTML=`<section class="card result"><div class="big">${S.mode==='survival'?S.ok:pct+'%'}</div><p class="sub">${S.mode==='survival'?'aciertos antes de quedarte sin vidas':`${S.ok} de ${S.n} correctas`} · ${S.xp} XP</p><p>${ex}</p>${r.msgs.map(m=>`<p class="medal">🏅 ${m}</p>`).join('')}
-  <div class="row"><button class="btn" data-a="play:${S.mode}:${S.w}">もう一度</button><button class="btn alt" data-a="go:map">Mapa</button></div></section>`;
+  <div class="row"><button class="btn" data-a="play:${S.mode}:${S.w}">Otra vez</button><button class="btn alt" data-a="go:map">Mapa</button></div></section>`;
   S=null;
 }
 
@@ -216,8 +221,8 @@ function insights(){
   const evo=days.map(d=>{const o=byDay[d];return`<li>${d===td?'Hoy':'Hace '+(td-d)+' d'}<span>${o.n?Math.round(o.ok/o.n*100):0}% · ${o.n} resp.</span></li>`}).join('')||'<small class="muted">Aún no hay sesiones registradas.</small>';
   const hist=(s.hist||[]).slice(-5).reverse().map(h=>`<li>${MODE_NAME[h.m]||h.m}<span>${h.ok}/${h.n}</span></li>`).join('');
   const dueChips=due.slice(0,16).map(i=>`<span class="chip s${E.rec(i.id).s}" title="${i.r[0]}">${i.jp}</span>`).join('')||'<small class="muted">Nada vencido. ¡Buen trabajo!</small>';
-  return`<h3>習得と復習</h3><div class="kpis"><div><b>${m}/${its.length}</b>dominados</div><div><b>${due.length}</b>para repasar hoy</div><div><b>${avg}</b>reconocimiento medio</div></div>
-  <div class="two"><section class="panel"><h3>今日の復習</h3><div class="chips">${dueChips}</div></section><section class="panel"><h3>Precisión por día</h3><ul class="missions">${evo}</ul></section></div>${hist?`<section class="panel"><h3>Últimas sesiones</h3><ul class="missions">${hist}</ul></section>`:''}`;
+  return`<h3>Dominio y repaso</h3><div class="kpis"><div><b>${m}/${its.length}</b>dominados</div><div><b>${due.length}</b>para repasar hoy</div><div><b>${avg}</b>reconocimiento medio</div></div>
+  <div class="two"><section class="panel"><h3>A repasar hoy</h3><div class="chips">${dueChips}</div></section><section class="panel"><h3>Precisión por día</h3><ul class="missions">${evo}</ul></section></div>${hist?`<section class="panel"><h3>Últimas sesiones</h3><ul class="missions">${hist}</ul></section>`:''}`;
 }
 
 // Sincronización online (Supabase). La lógica está en sync.js
@@ -270,11 +275,11 @@ function stats(){
   S=null;const s=get(),acc=s.tot?Math.round(s.ok/s.tot*100):0;
   const errs=Object.entries(s.items).filter(([,r])=>r.ko>0).sort((a,b)=>b[1].ko-a[1].ko).slice(0,8).map(([k,r])=>`<span class="chip s${r.s}" title="${r.ko} errores">${k.replace('w:','')}<sup>${r.ko}</sup></span>`).join('')||'<small class="muted">Sin errores registrados.</small>';
   const cf=Object.entries(s.conf).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,n])=>`<li>${k.split('>').join(' ≠ ')}<span>${n}×</span></li>`).join('')||'<small class="muted">Aún no hay confusiones registradas.</small>';
-  view(`<h2>きろく</h2><div class="kpis"><div><b>${acc}%</b>precisión</div><div><b>${s.tot}</b>respuestas</div><div><b>${s.best}</b>mejor racha</div><div><b>${E.level(s.xp)}</b>nivel</div></div>
+  view(`<h2>Progreso</h2><div class="kpis"><div><b>${acc}%</b>precisión</div><div><b>${s.tot}</b>respuestas</div><div><b>${s.best}</b>mejor racha</div><div><b>${E.level(s.xp)}</b>nivel</div></div>
   ${insights()}
   <div class="two"><section class="panel"><h3>Errores frecuentes</h3><div class="chips">${errs}</div></section><section class="panel"><h3>Confusiones</h3><ul class="missions">${cf}</ul></section></div>
   <h3>Dominados y pendientes</h3>${WORLDS.map(w=>`<section class="panel"><h4>${w.e} ${w.n} · ${Math.round(E.frac(w)*100)}%</h4>${E.unlocked(w)?chips(w):'<small class="muted">Bloqueado</small>'}</section>`).join('')}
-  <h3>メダル</h3><div class="medals">${E.ACH.map(a=>`<div class="m ${s.ach[a.id]?'on':''}"><b>${s.ach[a.id]?'🏅':'⚪'} ${a.t}</b><small>${a.d}</small></div>`).join('')}</div>
+  <h3>Medallas</h3><div class="medals">${E.ACH.map(a=>`<div class="m ${s.ach[a.id]?'on':''}"><b>${s.ach[a.id]?'🏅':'⚪'} ${a.t}</b><small>${a.d}</small></div>`).join('')}</div>
   ${syncPanel()}<h3>Sincronización manual (respaldo)</h3><section class="panel"><p class="muted">Copiá tu progreso acá y pegalo en el otro dispositivo. Se combinan: por cada carácter gana lo practicado más recientemente, y no se pierde nada de ninguno de los dos.</p>
   <div class="row"><button class="btn" data-a="exp">Copiar mi progreso</button><button class="btn alt" data-a="dl">Descargar copia</button></div>
   <textarea id="sync" rows="3" placeholder="Pegá acá el progreso del otro dispositivo" style="width:100%;margin:10px 0;font:inherit;font-size:16px;padding:10px;border-radius:10px;min-height:72px"></textarea>
