@@ -1,4 +1,4 @@
-const VERSION = 'nq16';
+const VERSION = 'nq17';
 
 const FILES = [
   './',
@@ -14,6 +14,12 @@ const FILES = [
   './manifest.webmanifest',
   './icons/kuru.svg',
   './icons/kuru-guide.svg',
+  './icons/kuru-main.svg',
+  './icons/kuru-happy.svg',
+  './icons/kuru-explain.svg',
+  './icons/kuru-celebrate.svg',
+  './icons/kuru-confused.svg',
+  './icons/kuru-rest.svg',
   './icons/world-hiragana.svg',
   './icons/world-dakuten.svg',
   './icons/world-combinations.svg',
