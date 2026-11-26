@@ -5,7 +5,7 @@ import * as E from './engine.js';
 import * as Sync from './sync.js';
 
 const $=s=>document.querySelector(s),app=$('#app');
-const KURU_MARK = '<svg class="kuru-mark" viewBox="0 0 64 64" role="img" aria-label="Kuru"><path d="M10 25 17 5 29 17Q32 15 35 17L47 5 54 26Q58 32 55 41 51 55 32 59 13 55 9 41 6 32 10 25Z" fill="#f5ecda"/><path d="m14 23 5-12 7 12M50 23l-5-12-7 12" fill="#eda9c1"/><path d="M20 34q3-3 6 0M38 34q3-3 6 0" fill="none" stroke="#20213a" stroke-width="2.8" stroke-linecap="round"/><path d="M29 41q3 3 6 0" fill="none" stroke="#20213a" stroke-width="2.4" stroke-linecap="round"/><path d="M48 48q9 1 10-7" fill="none" stroke="#eda9c1" stroke-width="4" stroke-linecap="round"/></svg>';
+const KURU_MARK = '<img class="kuru-mark" src="./icons/kuru.svg" alt="">';
 const WORLD_ART={1:'hiragana',2:'dakuten',3:'combinations',4:'katakana',5:'vocabulary',6:'conversation'};
 const KURU_TIPS={
   1:'Vamos a conocer las formas básicas, una por una. Sin apuro: primero reconocerlas.',
@@ -90,7 +90,7 @@ export function map(){
       <b>${w.n}</b><small>${u?w.d:'Dominá el 80% del mundo anterior'}</small>${bar(f)}<em>${Math.round(f*100)}%</em></button>`;
   }).join('');
   const ms=E.MISSIONS.map(m=>`<li class="${d.paid[m.k]?'done':''}">${m.t}<span>${Math.min(d[m.k],m.n)}/${m.n}</span></li>`).join('');
-  view(`<section class="kiko"><div class="fox"><img class="kuru-guide" src="./icons/kuru-guide.svg" alt="Kuru, tu guía"></div><p>${E.advice()}</p></section>
+  view(`<section class="kiko"><div class="fox"><img class="kuru-guide" src="./icons/kuru-main.svg" alt="Kuru, tu guía"></div><p>${E.advice()}</p></section>
   <h2>せかい</h2><div class="worlds">${ws}</div>
   <div class="two"><section class="panel"><h3>きょうのもくひょう</h3><ul class="missions">${ms}</ul></section>
   <section class="panel special-practice"><h3>とくべつなれんしゅう</h3><div class="stack"><button class="btn" data-a="play:exam:all">さいしゅうしけん · 20</button><button class="btn alt" data-a="play:survival:all">さばいばる</button><button class="btn alt" data-a="play:mix:all">きょうのふくしゅう</button></div>
@@ -102,7 +102,7 @@ function world(id){
   const leg=`<div class="legend">${LEGEND.map(([c,t])=>`<span><i class="chip ${c}"></i>${t}</span>`).join('')}</div>`;
   view(`<button class="back" data-a="go:map">← Mapa</button>
   <section class="world-hero"><img src="./icons/world-${WORLD_ART[id]}.svg" alt="" class="world-hero-art"><div><span class="eyebrow">MUNDO ${id} / 06</span><h2>${w.n}</h2><p class="muted">${w.d}</p></div></section>
-  <section class="kuru-mentor"><img src="./icons/kuru-guide.svg" alt="Kuru" class="mentor-kuru"><p>${KURU_TIPS[id]}</p></section>
+  <section class="kuru-mentor"><img src="./icons/kuru-explain.svg" alt="Kuru explicando" class="mentor-kuru"><p>${KURU_TIPS[id]}</p></section>
   <p class="muted world-instruction">Tocá un bloque para ver su lectura. Más color = más dominado.</p>${leg}${chips(w)}
   <div class="modes">${ms.map(m=>`<button class="mode" data-a="play:${m[0]}:${id}"><b>${m[1]}</b><small>${m[2]}</small></button>`).join('')}</div>`);
 }
@@ -184,7 +184,7 @@ function answer(ok,x){
     if(S.q.opts){S.q.opts[i].ok&&b.classList.add('right');i===x.idx&&!ok&&b.classList.add('wrong')}
   });
   const c=$('#card');c.classList.add(ok?'pop':'shake');
-  $('#fb').innerHTML=`<div class="fb ${ok?'good':'bad'}"><b>${ok?'¡Bien! +'+g+' XP':'Todavía no. '+g+' XP'}</b><p>${E.explain(S.q,x.picked)}</p><button class="btn" data-a="next">つぎへ</button></div>`;
+  $('#fb').innerHTML=`<div class="fb ${ok?'good':'bad'}"><div class="fb-kuru"><img src="./icons/kuru-${ok?'happy':'confused'}.svg" alt="Kuru ${ok?'feliz':'pensando'}"><div><b>${ok?'¡Bien! +'+g+' XP':'Todavía no. '+g+' XP'}</b><p>${E.explain(S.q,x.picked)}</p></div></div><button class="btn" data-a="next">つぎへ</button></div>`;
   if(ok){c.insertAdjacentHTML('beforeend',`<span class="gain">+${g}</span>`);if(S.mode==='survival')setTimeout(()=>S&&S.done&&$('[data-a="next"]')&&nextQ(),700)}
   const n=$('[data-a="next"]');n&&n.focus();
 }
@@ -216,7 +216,7 @@ function end(){
   clearInterval(tm);const r=E.endSession(S),pct=Math.round(S.ok/Math.max(1,S.n)*100);
   header();
   const ex=r.pct!==null?(r.pct>=90?'¡Examen aprobado! +100 XP de bonus.':'Todavía no llegás al 90%. Los errores ya se sumaron a tu plan de práctica.'):'';
-  app.innerHTML=`<section class="card result"><div class="big">${S.mode==='survival'?S.ok:pct+'%'}</div><p class="sub">${S.mode==='survival'?'aciertos antes de quedarte sin vidas':`${S.ok} de ${S.n} correctas`} · ${S.xp} XP</p><p>${ex}</p>${r.msgs.map(m=>`<p class="medal">🏅 ${m}</p>`).join('')}
+  app.innerHTML=`<section class="card result"><img class="result-kuru" src="./icons/kuru-${r.pct!==null&&r.pct>=90?'celebrate':S.mode==='survival'&&S.lives>0?'celebrate':'confused'}.svg" alt="Kuru"><div class="big">${S.mode==='survival'?S.ok:pct+'%'}</div><p class="sub">${S.mode==='survival'?'aciertos antes de quedarte sin vidas':`${S.ok} de ${S.n} correctas`} · ${S.xp} XP</p><p>${ex}</p>${r.msgs.map(m=>`<p class="medal">🏅 ${m}</p>`).join('')}
   <div class="row"><button class="btn" data-a="play:${S.mode}:${S.w}">もういちど</button><button class="btn alt" data-a="go:map">Mapa</button></div></section>`;
   S=null;
 }
@@ -227,7 +227,7 @@ function insights(){
   const ts=its.map(i=>E.rec(i.id).t).filter(Boolean),avg=ts.length?(ts.reduce((a,b)=>a+b,0)/ts.length/1000).toFixed(1)+' s':'—';
   const byDay={};(s.hist||[]).forEach(h=>{const o=byDay[h.d]=byDay[h.d]||{n:0,ok:0};o.n+=h.n;o.ok+=h.ok});
   const td=E.today(),days=Object.keys(byDay).map(Number).sort((a,b)=>b-a).slice(0,7).reverse();
-  const evo=days.map(d=>{const o=byDay[d];return`<li>${d===td?'Hoy':'Hace '+(td-d)+' d'}<span>${o.n?Math.round(o.ok/o.n*100):0}% · ${o.n} resp.</span></li>`}).join('')||'<small class="muted">Aún no hay sesiones registradas.</small>';
+  const evo=days.map(d=>{const o=byDay[d];return`<li>${d===td?'Hoy':'Hace '+(td-d)+' d'}<span>${o.n?Math.round(o.ok/o.n*100):0}% · ${o.n} resp.</span></li>`}).join('')||'<div class="empty-history"><img src="./icons/kuru-rest.svg" alt="Kuru descansando"><small class="muted">Aún no hay sesiones registradas. ¡Tu aventura empieza cuando quieras!</small></div>';
   const hist=(s.hist||[]).slice(-5).reverse().map(h=>`<li>${MODE_NAME[h.m]||h.m}<span>${h.ok}/${h.n}</span></li>`).join('');
   const dueChips=due.slice(0,16).map(i=>`<span class="chip s${E.rec(i.id).s}" title="${i.r[0]}">${i.jp}</span>`).join('')||'<small class="muted">Nada vencido. ¡Buen trabajo!</small>';
   return`<h3>しゅうとくとふくしゅう</h3><div class="kpis"><div><b>${m}/${its.length}</b><small class="kpi-label">dominados</small></div><div><b>${due.length}</b><small class="kpi-label">para repasar hoy</small></div><div><b>${avg}</b><small class="kpi-label">reconocimiento medio</small></div></div>

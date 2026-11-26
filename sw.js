@@ -1,9 +1,9 @@
-const VERSION = 'nq16';
+const VERSION = 'nq18';
 
 const FILES = [
   './',
   './index.html',
-  './css/style.css?v=nq16',
+  './css/style.css?v=nq18',
   './js/main.js',
   './js/ui.js',
   './js/engine.js',
@@ -13,7 +13,12 @@ const FILES = [
   './js/supabase-config.js',
   './manifest.webmanifest',
   './icons/kuru.svg',
-  './icons/kuru-guide.svg',
+  './icons/kuru-main.svg',
+  './icons/kuru-happy.svg',
+  './icons/kuru-explain.svg',
+  './icons/kuru-celebrate.svg',
+  './icons/kuru-confused.svg',
+  './icons/kuru-rest.svg',
   './icons/world-hiragana.svg',
   './icons/world-dakuten.svg',
   './icons/world-combinations.svg',
