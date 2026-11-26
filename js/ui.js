@@ -15,7 +15,7 @@ const MODES=[
   ['read','かきとり','Escribí en romaji'],
   ['combat','たいけつ','Kana parecidos'],
   ['build','ことばづくり','Ordená sílabas'],
-  ['survival','サバイバル','3 vidas, tiempo límite'],
+  ['survival','さばいばる','3 vidas, tiempo límite'],
   ['memory','きおく','Uní kana y sonido']
 ];
 const MODE_NAME=Object.fromEntries([...MODES.map(m=>[m[0],m[1]]),['exam','Examen final']]);
@@ -25,7 +25,7 @@ const LEGEND=[
   ['s1','しょきゅう'],
   ['s2','れんしゅうちゅう'],
   ['s3','じょうきゅう'],
-  ['s4','あと少し'],
+  ['s4','あとすこし'],
   ['s5','しゅうとく']
 ];
 
@@ -116,7 +116,7 @@ function hud(){
 function draw(){
   const q=S.q;let body='';
   if(q.opts)body=`<div class="opts${q.opts[0].glyph?' two':''}">${q.opts.map((o,i)=>`<button class="opt${o.glyph?' glyph':''}" data-a="opt:${i}"><kbd>${i+1}</kbd><span>${o.label}</span><span></span></button>`).join('')}</div>`;
-  else if(q.mode==='read')body=`<div class="row"><input id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="romaji を入力"><button class="btn" data-a="chk">かくにん</button></div>`;
+  else if(q.mode==='read')body=`<div class="row"><input id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Escribí en romaji"><button class="btn" data-a="chk">かくにん</button></div>`;
   else body=`<div class="built" id="built"></div><div class="opts syl">${q.shuf.map((s,i)=>`<button class="opt glyph" data-a="syl:${i}">${s}</button>`).join('')}</div><button class="btn alt" data-a="clr">けす</button>`;
   app.innerHTML=`${hud()}<section class="card" id="card"><div class="stamp">${WORLDS[(typeof S.w==='number'?S.w:1)-1].e}</div><div class="big${q.mode==='quick'&&q.it.kind==='part'?' long':''}">${q.big}</div><p class="sub">${q.sub}</p>${body}<div id="fb"></div></section>`;
   const a=$('#ans');a&&a.focus();
