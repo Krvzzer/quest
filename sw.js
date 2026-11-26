@@ -1,9 +1,9 @@
-const VERSION = 'nq13';
+const VERSION = 'nq14';
 
 const FILES = [
   './',
   './index.html',
-  './css/style.css?v=nq12',
+  './css/style.css?v=nq14',
   './js/main.js',
   './js/ui.js',
   './js/engine.js',
@@ -14,8 +14,13 @@ const FILES = [
   './manifest.webmanifest',
   './icons/kuru.svg',
   './icons/kuru-guide.svg',
-  
-  
+  './icons/world-hiragana.svg',
+  './icons/world-dakuten.svg',
+  './icons/world-combinations.svg',
+  './icons/world-katakana.svg',
+  './icons/world-vocabulary.svg',
+  './icons/world-conversation.svg',
+
   './icons/apple-touch-icon.png'
 ];
 
