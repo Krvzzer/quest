@@ -1169,3 +1169,21 @@ input,textarea{border-radius:13px;border-color:rgba(237,169,193,.35)}input:focus
     font-size: .76rem;
   }
 }
+
+
+/* Kuru ilustrado · identidad y estados */
+.kuru-mark{display:block;width:42px;height:42px;flex:none;object-fit:contain;filter:drop-shadow(0 3px 9px rgba(237,169,193,.22))}
+.fox .kuru-guide,.mentor-kuru{object-fit:contain;object-position:center}
+.fb-kuru{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.fb-kuru img{width:104px;height:112px;flex:none;object-fit:contain;object-position:center}
+.fb-kuru p{margin:.25rem 0 0}
+.result-kuru{display:block;width:min(210px,55vw);height:210px;object-fit:contain;margin:0 auto 8px}
+.empty-history{display:flex;align-items:center;gap:14px;padding:8px 0}
+.empty-history img{width:100px;height:108px;object-fit:contain;flex:none}
+.empty-history small{line-height:1.5}
+@media(max-width:560px){
+ .kuru-mark{width:36px;height:36px}
+ .fb-kuru img{width:82px;height:94px}
+ .result-kuru{height:170px}
+ .empty-history img{width:82px;height:90px}
+}
