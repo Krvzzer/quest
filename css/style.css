@@ -991,3 +991,82 @@ input {
     display: none;
   }
 }
+/* NIPPON QUEST · YORU NO KYOTO — identidad visual */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap');
+:root {
+  --ink:#10172b; --ink2:#192440; --ink3:#293654;
+  --paper:#f5ecda; --paper-mut:#655d70; --sumi:#171827;
+  --sakura:#eda9c1; --sakura-dark:#cf789b; --sakura-deep:#71364f;
+  --matcha:#a8c58b; --gold:#e8c995; --txt:#f7f1f5; --mut:#aeb8d0;
+  --r:18px; --shadow:0 18px 48px rgba(3,7,20,.28);
+  --kana:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+}
+body {
+ background:radial-gradient(ellipse 70% 42% at 50% -8%,rgba(103,111,166,.25),transparent 72%),
+ radial-gradient(ellipse 48% 38% at 100% 20%,rgba(237,169,193,.12),transparent 72%),
+ radial-gradient(ellipse 42% 34% at 0% 72%,rgba(93,89,143,.12),transparent 72%),#10172b;
+ color:#f7f1f5;font-family:Inter,"Noto Sans JP",system-ui,sans-serif;
+}
+.petals{display:none}
+#top{min-height:76px;padding:12px clamp(18px,4vw,52px);background:rgba(13,20,39,.88);
+ border-bottom:1px solid rgba(237,169,193,.16);box-shadow:0 8px 30px rgba(4,8,22,.12);
+ backdrop-filter:blur(22px) saturate(130%)}
+#app{width:min(1120px,100%);padding:clamp(28px,5vw,58px) clamp(18px,4vw,42px) 88px}
+.brand{gap:12px;padding:5px 8px 5px 2px;font-size:.94rem;letter-spacing:.14em;text-transform:uppercase}
+.brand b{font-weight:800}
+.kuru-mark{display:block;width:34px;height:34px;flex:none;filter:drop-shadow(0 3px 8px rgba(237,169,193,.18))}
+.lvl{gap:10px;max-width:330px;font-size:.78rem;letter-spacing:.08em;color:var(--mut)}
+.lvl .bar{max-width:142px;height:6px;background:rgba(174,184,208,.18)}
+.lvl small{font-size:.75rem}
+nav{gap:7px}
+nav button{background:transparent;border:1px solid transparent;color:#c9cce0;padding:0 17px;border-radius:999px;font-size:.82rem;letter-spacing:.08em}
+nav button:hover,nav button:focus-visible{color:#fff2f7;background:rgba(237,169,193,.1);border-color:rgba(237,169,193,.3)}
+h2{margin:1.8em 0 .8em;color:#fff4f7;font-size:clamp(1.55rem,3vw,2.1rem);font-weight:700;letter-spacing:.035em}
+h3{color:#f5dce6;font-size:1rem;letter-spacing:.045em;font-weight:650}
+h4{color:#f3e9ef}.muted{color:#aeb8d0}
+.kiko{position:relative;overflow:hidden;min-height:118px;gap:20px;padding:24px 28px;border:1px solid rgba(237,169,193,.24);
+ border-radius:22px;background:radial-gradient(circle at 94% 12%,rgba(237,169,193,.2),transparent 35%),linear-gradient(115deg,rgba(31,43,72,.98),rgba(24,31,57,.96));
+ box-shadow:0 18px 44px rgba(3,7,20,.2),inset 0 1px rgba(255,255,255,.04)}
+.kiko:after{content:"夜";position:absolute;right:26px;bottom:-32px;color:rgba(237,169,193,.055);font:800 8rem/1 "Noto Sans JP",sans-serif;pointer-events:none}
+.fox{width:58px;height:58px;display:grid;place-items:center;font-size:0;animation:none}
+.fox .kuru-mark{width:58px;height:58px}
+.kiko p{position:relative;z-index:1;max-width:720px;color:#f3eaf0;font-size:.96rem}
+.worlds{gap:16px}
+.world{min-height:190px;gap:11px;padding:22px 23px;border:1px solid rgba(174,184,208,.15);border-left:1px solid rgba(237,169,193,.36);
+ border-radius:19px;background:linear-gradient(145deg,rgba(34,46,75,.98),rgba(24,33,57,.98));color:#f7f1f5;
+ box-shadow:0 14px 34px rgba(3,7,20,.2),inset 0 1px rgba(255,255,255,.035)}
+.world:hover:not(:disabled){transform:translateY(-4px);border-color:rgba(237,169,193,.55);background:linear-gradient(145deg,rgba(47,58,91,.99),rgba(29,39,67,.99));box-shadow:0 20px 42px rgba(3,7,20,.28),0 0 0 1px rgba(237,169,193,.08)}
+.world b{color:#fff2f7;font-size:1.08rem;letter-spacing:.025em}
+.world small{color:#b7bfd4}.world em{color:#efb4c9;font-size:.82rem}
+.world .bar{height:6px;background:rgba(174,184,208,.16)}.wi{font-size:1.65rem;filter:saturate(.8)}
+.world.lock{background:rgba(21,29,50,.64);border:1px solid rgba(174,184,208,.12);color:#8993ad;box-shadow:none}
+.world.lock small,.world.lock em{color:#8993ad}
+.panel,.mode,.m{background:linear-gradient(145deg,rgba(29,41,68,.94),rgba(22,32,56,.96));border:1px solid rgba(174,184,208,.14);border-radius:18px;box-shadow:0 14px 34px rgba(3,7,20,.16),inset 0 1px rgba(255,255,255,.025)}
+.panel{padding:22px 24px}.missions li{border-bottom-color:rgba(255,255,255,.07)}.missions span{color:#e6b3c7}
+.mode{padding:18px 20px}.mode:hover{border-color:rgba(237,169,193,.55);background:rgba(49,60,94,.96)}
+.mode b{color:#fff0f5;letter-spacing:.025em}.mode small{color:#aeb8d0}
+.btn{min-height:48px;padding:0 22px;border-radius:999px;background:linear-gradient(135deg,#f1b5ca,#e99bb8);color:#211a2b;box-shadow:0 7px 18px rgba(207,120,155,.18);font-size:.86rem;font-weight:750;letter-spacing:.045em}
+.btn:hover:not(:disabled){background:#f7c6d7;box-shadow:0 10px 24px rgba(207,120,155,.25)}
+.btn.alt{background:rgba(237,169,193,.09);color:#f1dce5;border:1px solid rgba(237,169,193,.22);box-shadow:none}
+.btn.alt:hover:not(:disabled){background:rgba(237,169,193,.16)}
+.btn.ghost{border-radius:999px}.back{color:#c1c6da;letter-spacing:.04em}.back:hover{color:#f1b5ca}
+.legend{color:#aeb8d0}.chip{border-radius:12px;background:#303e61;border-color:rgba(255,255,255,.08)}
+.chip.s0{background:#26334f}.chip.s1{background:#50364e}.chip.s2{background:#794a68}.chip.s3{background:#506d5b}.chip.s4{background:#a8c58b}.chip.s5{background:#efaec5}
+.hud{color:#c1c7da;letter-spacing:.04em;font-size:.82rem}
+.card{max-width:820px;margin:0 auto;padding:clamp(28px,5vw,54px);border:1px solid rgba(237,169,193,.28);border-radius:24px;
+ background:radial-gradient(ellipse at 50% 0%,rgba(237,169,193,.13),transparent 54%),linear-gradient(145deg,#202d4a,#18233d);
+ color:#f8eff4;box-shadow:0 24px 65px rgba(3,7,20,.32),inset 0 1px rgba(255,255,255,.055)}
+.stamp{background:rgba(237,169,193,.15);color:#f4c4d5;border:1px solid rgba(237,169,193,.28);border-radius:50%;transform:none;box-shadow:none}
+.big{color:#fff3f7;font-weight:600;text-shadow:0 10px 35px rgba(237,169,193,.12)}.sub{color:#c0c7d9}
+.opt,.mc{background:rgba(12,19,37,.62);border:1px solid rgba(174,184,208,.16);color:#f7f1f5;border-radius:15px}
+.opt:hover:not(:disabled),.mc:hover:not(.up):not(.ok){background:rgba(237,169,193,.11);border-color:rgba(237,169,193,.48)}
+.opt kbd{color:#f0b4ca;background:rgba(237,169,193,.12)}
+.opt.right,.mc.ok{background:#a8c58b;color:#172419;border-color:#c6dfb1}.opt.wrong{background:#9f536a;color:#fff}
+input,textarea{border-radius:13px;border-color:rgba(237,169,193,.35)}input:focus,textarea:focus{border-color:#eda9c1}
+.fb.good{background:#dcebc9;color:#172419;border-left-color:#82a96a}.fb.bad{background:#f3d5df;color:#361c29;border-left-color:#c96e8c}
+.kpis div{background:linear-gradient(145deg,rgba(42,54,85,.98),rgba(27,39,66,.98));color:#f8eff4;border:1px solid rgba(174,184,208,.14);border-radius:18px;box-shadow:0 12px 28px rgba(3,7,20,.18)}
+.kpis b{color:#f2b6cb}.medal{color:#efb4c9}.m.on{border-color:rgba(237,169,193,.62);box-shadow:0 0 0 1px rgba(237,169,193,.14),0 12px 28px rgba(3,7,20,.18)}
+@media(max-width:820px){#top{flex-wrap:wrap;gap:8px 14px}.lvl{order:3;flex-basis:100%;max-width:none}.lvl .bar{max-width:none}}
+@media(max-width:560px){#top{min-height:68px;padding:10px 14px}#app{padding:24px 14px 64px}.brand b{display:inline;font-size:.78rem}.brand{letter-spacing:.1em}
+ .kiko{padding:17px 18px;gap:13px;border-radius:18px}.fox,.fox .kuru-mark{width:46px;height:46px}.worlds{grid-template-columns:1fr;gap:12px}
+ .world{min-height:0;padding:18px 19px}.panel{padding:18px}.card{padding:28px 18px;border-radius:20px}.kpis{gap:9px}.kpis div{padding:13px 9px}.kpis b{font-size:1.55rem}}
