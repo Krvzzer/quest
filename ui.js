@@ -1,7 +1,8 @@
 // Pantallas y minijuegos. Toda la lógica de decisión vive en engine.js.
 import {WORLDS} from './data.js';
-import {get,reset} from './store.js';
+import {get,reset,exportData,importMerge} from './store.js';
 import * as E from './engine.js';
+import * as Sync from './sync.js';
 
 const $=s=>document.querySelector(s),app=$('#app');
 const bar=p=>`<i class="bar" style="--p:${Math.round(p*100)}%"></i>`;
@@ -16,6 +17,7 @@ const MODES=[
   ['survival','Supervivencia','3 vidas, tiempo límite'],
   ['memory','Memoria visual','Uní kana y sonido']
 ];
+const MODE_NAME=Object.fromEntries([...MODES.map(m=>[m[0],m[1]]),['exam','Examen final']]);
 
 const LEGEND=[
   ['s0','Sin práctica'],
@@ -34,7 +36,6 @@ export function init(){
     s.style.cssText=`left:${i*13+3}%;animation-delay:${-i*2.3}s;animation-duration:${16+i%3*4}s`;
     p.append(s);
   }
-  initRadio();
   document.addEventListener('click',e=>{
     const b=e.target.closest('[data-a]');
     if(!b)return;
@@ -48,8 +49,13 @@ export function init(){
       chk:chk,
       syl:()=>syl(+x),
       clr:clr,
-      reset:()=>{if(confirm('¿Borrar TODO tu progreso? No se puede deshacer.')){reset();E.seed();map()}},
-      radioreset:resetRadio
+      exp:doExport,
+      imp:doImport,
+      dl:doDownload,
+      synclogin:()=>syncAct(()=>Sync.login($('#sbEmail').value,$('#sbPassword').value)),
+      synclogout:()=>syncAct(()=>Sync.logout()),
+      syncnow:()=>syncAct(()=>Sync.syncNow()),
+      reset:()=>{if(confirm('¿Borrar TODO tu progreso? No se puede deshacer.')){reset();E.seed();map()}}
     }[a]||(()=>{}))();
   });
   document.addEventListener('keydown',e=>{
@@ -81,11 +87,12 @@ export function map(){
   view(`<section class="kiko"><div class="fox">🦊</div><p>${E.advice()}</p></section>
   <h2>Mundos</h2><div class="worlds">${ws}</div>
   <div class="two"><section class="panel"><h3>Misiones de hoy</h3><ul class="missions">${ms}</ul></section>
-  <section class="panel"><h3>Desafíos generales</h3><div class="stack"><button class="btn" data-a="play:exam:all">Examen final (20)</button><button class="btn alt" data-a="play:survival:all">Supervivencia</button></div></section></div>`);
+  <section class="panel"><h3>Desafíos generales</h3><div class="stack"><button class="btn" data-a="play:exam:all">Examen final (20)</button><button class="btn alt" data-a="play:survival:all">Supervivencia</button><button class="btn alt" data-a="play:mix:all">Repaso de hoy</button></div>
+  <p class="muted"><b>Examen:</b> 20 preguntas mezcladas de todos los kana que tenés abiertos; con 90% o más ganás un bonus.<br><b>Supervivencia:</b> 3 vidas y tiempo límite; mide cuánto retenés.<br><b>Repaso:</b> Entrenar con todo lo desbloqueado, priorizando lo que toca repasar.</p></section></div>`);
 }
 
 function world(id){
-  cur=id;const w=WORLDS[id-1],ms=MODES.filter(m=>id<5||!['combat','memory'].includes(m[0]));
+  cur=id;const w=WORLDS[id-1],ms=MODES.filter(m=>id===6?!['read','combat','memory'].includes(m[0]):id<5||!['combat','memory'].includes(m[0]));
   const leg=`<div class="legend">${LEGEND.map(([c,t])=>`<span><i class="chip ${c}"></i>${t}</span>`).join('')}</div>`;
   view(`<button class="back" data-a="go:map">← Mapa</button><h2>${w.e} Mundo ${id} · ${w.n}</h2><p class="muted">Tocá un bloque coloreado para ver su lectura. Más color = más dominado.</p>${leg}${chips(w)}
   <div class="modes">${ms.map(m=>`<button class="mode" data-a="play:${m[0]}:${id}"><b>${m[1]}</b><small>${m[2]}</small></button>`).join('')}</div>`);
@@ -205,141 +212,77 @@ function end(){
   S=null;
 }
 
+// Dominio, repaso pendiente, tiempo medio y evolución (datos de engine.js / store.js)
+function insights(){
+  const s=get(),its=E.unl().flatMap(w=>E.core(w)),m=its.filter(i=>E.rec(i.id).s>=4).length,due=E.due();
+  const ts=its.map(i=>E.rec(i.id).t).filter(Boolean),avg=ts.length?(ts.reduce((a,b)=>a+b,0)/ts.length/1000).toFixed(1)+' s':'—';
+  const byDay={};(s.hist||[]).forEach(h=>{const o=byDay[h.d]=byDay[h.d]||{n:0,ok:0};o.n+=h.n;o.ok+=h.ok});
+  const td=E.today(),days=Object.keys(byDay).map(Number).sort((a,b)=>b-a).slice(0,7).reverse();
+  const evo=days.map(d=>{const o=byDay[d];return`<li>${d===td?'Hoy':'Hace '+(td-d)+' d'}<span>${o.n?Math.round(o.ok/o.n*100):0}% · ${o.n} resp.</span></li>`}).join('')||'<small class="muted">Aún no hay sesiones registradas.</small>';
+  const hist=(s.hist||[]).slice(-5).reverse().map(h=>`<li>${MODE_NAME[h.m]||h.m}<span>${h.ok}/${h.n}</span></li>`).join('');
+  const dueChips=due.slice(0,16).map(i=>`<span class="chip s${E.rec(i.id).s}" title="${i.r[0]}">${i.jp}</span>`).join('')||'<small class="muted">Nada vencido. ¡Buen trabajo!</small>';
+  return`<h3>Dominio y repaso</h3><div class="kpis"><div><b>${m}/${its.length}</b>dominados</div><div><b>${due.length}</b>para repasar hoy</div><div><b>${avg}</b>reconocimiento medio</div></div>
+  <div class="two"><section class="panel"><h3>A repasar hoy</h3><div class="chips">${dueChips}</div></section><section class="panel"><h3>Precisión por día</h3><ul class="missions">${evo}</ul></section></div>${hist?`<section class="panel"><h3>Últimas sesiones</h3><ul class="missions">${hist}</ul></section>`:''}`;
+}
+
+// Sincronización online (Supabase). La lógica está en sync.js
+const IN='style="width:100%;margin:6px 0;font:inherit;font-size:16px;padding:10px;border-radius:10px"';
+const stMsg=t=>{const m=$('#syncst');m&&(m.textContent=t)};
+async function syncAct(f){try{await f();stats()}catch(e){stMsg('Error: '+e.message)}}
+
+function syncPanel(){
+  if(!Sync.config()){
+    return `<h3>Sincronización online</h3>
+      <section class="panel">
+        <p class="muted">No se encontró una configuración válida de Supabase. Revisá js/supabase-config.js.</p>
+      </section>`;
+  }
+
+  return `<h3>Sincronización online</h3>
+    <section class="panel">
+      <p>Estado: <b id="syncst">${Sync.status()}</b></p>
+      <p class="muted">Iniciá sesión con la cuenta que creaste en Supabase. Tu progreso se guarda en una cuenta privada.</p>
+      <input id="sbEmail" type="email" autocomplete="username"
+        ${IN} placeholder="Correo electrónico">
+      <input id="sbPassword" type="password" autocomplete="current-password"
+        ${IN} placeholder="Contraseña">
+      <div class="row">
+        <button class="btn" data-a="synclogin">Iniciar sesión y sincronizar</button>
+        <button class="btn alt" data-a="synclogout">Cerrar sesión</button>
+      </div>
+      <div class="row">
+        <button class="btn alt" data-a="syncnow">Sincronizar ahora</button>
+      </div>
+    </section>`;
+}
+
+// Sincronización manual: exportar acá, importar en el otro dispositivo (se combinan, no se pisan)
+const syncMsg=t=>{const m=$('#syncmsg');m&&(m.textContent=t)};
+function doExport(){
+  const t=exportData();
+  (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>syncMsg('Progreso copiado. Pegalo en el otro dispositivo (podés mandártelo por WhatsApp o notas).')).catch(()=>{const a=$('#sync');a.value=t;a.select();syncMsg('No pude copiar solo: el texto quedó en la caja, copialo a mano.')});
+}
+function doDownload(){
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([exportData()],{type:'application/json'}));
+  a.download='nippon-quest-progreso.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+}
+function doImport(){
+  try{const r=importMerge($('#sync').value);stats();syncMsg(`Listo: se combinaron ${r.items} caracteres. Ahora hacelo al revés (exportar acá, importar en el otro) para que los dos queden iguales.`)}
+  catch(e){syncMsg('No se pudo importar: '+e.message)}
+}
+
 function stats(){
   S=null;const s=get(),acc=s.tot?Math.round(s.ok/s.tot*100):0;
   const errs=Object.entries(s.items).filter(([,r])=>r.ko>0).sort((a,b)=>b[1].ko-a[1].ko).slice(0,8).map(([k,r])=>`<span class="chip s${r.s}" title="${r.ko} errores">${k.replace('w:','')}<sup>${r.ko}</sup></span>`).join('')||'<small class="muted">Sin errores registrados.</small>';
   const cf=Object.entries(s.conf).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,n])=>`<li>${k.split('>').join(' ≠ ')}<span>${n}×</span></li>`).join('')||'<small class="muted">Aún no hay confusiones registradas.</small>';
   view(`<h2>Progreso</h2><div class="kpis"><div><b>${acc}%</b>precisión</div><div><b>${s.tot}</b>respuestas</div><div><b>${s.best}</b>mejor racha</div><div><b>${E.level(s.xp)}</b>nivel</div></div>
+  ${insights()}
   <div class="two"><section class="panel"><h3>Errores frecuentes</h3><div class="chips">${errs}</div></section><section class="panel"><h3>Confusiones</h3><ul class="missions">${cf}</ul></section></div>
   <h3>Dominados y pendientes</h3>${WORLDS.map(w=>`<section class="panel"><h4>${w.e} ${w.n} · ${Math.round(E.frac(w)*100)}%</h4>${E.unlocked(w)?chips(w):'<small class="muted">Bloqueado</small>'}</section>`).join('')}
   <h3>Medallas</h3><div class="medals">${E.ACH.map(a=>`<div class="m ${s.ach[a.id]?'on':''}"><b>${s.ach[a.id]?'🏅':'⚪'} ${a.t}</b><small>${a.d}</small></div>`).join('')}</div>
+  ${syncPanel()}<h3>Sincronización manual (respaldo)</h3><section class="panel"><p class="muted">Copiá tu progreso acá y pegalo en el otro dispositivo. Se combinan: por cada carácter gana lo practicado más recientemente, y no se pierde nada de ninguno de los dos.</p>
+  <div class="row"><button class="btn" data-a="exp">Copiar mi progreso</button><button class="btn alt" data-a="dl">Descargar copia</button></div>
+  <textarea id="sync" rows="3" placeholder="Pegá acá el progreso del otro dispositivo" style="width:100%;margin:10px 0;font:inherit;font-size:16px;padding:10px;border-radius:10px;min-height:72px"></textarea>
+  <div class="row"><button class="btn" data-a="imp">Importar y combinar</button></div><p class="muted" id="syncmsg"></p></section>
   <p><button class="btn ghost" data-a="reset">Reiniciar progreso</button></p>`);
-}
-
-// Nippon Radio: reproductor persistente e independiente de las pantallas.
-const DEFAULT_RADIO = 'https://www.youtube.com/watch?v=1Tl2FtV06qo';
-const RADIO_KEY = 'nipponQuestRadioUrl';
-
-function radioVideoId(value) {
-  try {
-    const url = new URL(value.trim());
-    let id = '';
-
-    if (url.hostname === 'youtu.be' || url.hostname.endsWith('.youtu.be')) {
-      id = url.pathname.split('/').filter(Boolean)[0] || '';
-    } else if (url.hostname.includes('youtube.com')) {
-      id = url.searchParams.get('v') || '';
-      if (!id) {
-        const parts = url.pathname.split('/').filter(Boolean);
-        if (['embed', 'shorts', 'live'].includes(parts[0])) {
-          id = parts[1] || '';
-        }
-      }
-    }
-
-    return /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null;
-  } catch {
-    return null;
-  }
-}
-
-function setRadio(value) {
-  const id = radioVideoId(value);
-  const frame = $('#radioFrame');
-  const input = $('#radioUrl');
-  const status = $('#radioStatus');
-  const link = $('#radioFallback');
-
-  if (!id) {
-    if (status) status.textContent = 'Ese enlace no parece ser un video válido de YouTube.';
-    return;
-  }
-
-  const cleanUrl = `https://www.youtube.com/watch?v=${id}`;
-
-  if (frame) {
-    frame.src = `https://www.youtube-nocookie.com/embed/${id}?controls=1&playsinline=1&rel=0`;
-  }
-
-  if (input) input.value = cleanUrl;
-  if (link) link.href = cleanUrl;
-  if (status) status.textContent = 'Radio lista. Tocá reproducir para escuchar.';
-
-  try {
-    localStorage.setItem(RADIO_KEY, cleanUrl);
-  } catch (error) {
-    console.warn('[Nippon Radio] No se pudo guardar la preferencia:', error);
-  }
-}
-
-function resetRadio() {
-  setRadio(DEFAULT_RADIO);
-}
-
-function initRadio() {
-  const root = $('#radio');
-  if (!root) return;
-
-  root.innerHTML = `
-    <details class="radio">
-      <summary>
-        <span class="radio-icon">♫</span>
-        <span><b>Nippon Radio</b><small>Un espacio para estudiar</small></span>
-        <span class="radio-arrow">⌄</span>
-      </summary>
-
-      <div class="radio-content">
-        <div class="radio-player">
-          <iframe
-            id="radioFrame"
-            title="Nippon Radio - YouTube"
-            loading="lazy"
-            allow="encrypted-media; picture-in-picture; fullscreen"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen>
-          </iframe>
-        </div>
-
-        <form id="radioForm" class="radio-settings">
-          <label for="radioUrl">Enlace de YouTube</label>
-          <input
-            id="radioUrl"
-            name="url"
-            type="url"
-            placeholder="Pegá un enlace de YouTube"
-            autocomplete="url"
-            required>
-          <div class="radio-actions">
-            <button class="radio-save" type="submit">Guardar enlace</button>
-            <button class="radio-reset" type="button" data-a="radioreset">
-              Restaurar original
-            </button>
-          </div>
-          <p id="radioStatus" role="status">Radio lista.</p>
-          <a id="radioFallback"
-             href="https://www.youtube.com/watch?v=1Tl2FtV06qo"
-             target="_blank"
-             rel="noopener noreferrer">
-            Abrir video en YouTube ↗
-          </a>
-        </form>
-      </div>
-    </details>
-  `;
-
-  const form = $('#radioForm');
-  form.addEventListener('submit', event => {
-    event.preventDefault();
-    setRadio($('#radioUrl').value);
-  });
-
-  let saved = DEFAULT_RADIO;
-
-  try {
-    saved = localStorage.getItem(RADIO_KEY) || DEFAULT_RADIO;
-  } catch (error) {
-    console.warn('[Nippon Radio] No se pudo leer la preferencia:', error);
-  }
-
-  setRadio(saved);
 }
