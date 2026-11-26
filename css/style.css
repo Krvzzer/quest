@@ -74,7 +74,8 @@ button {
 
 button:focus-visible,
 input:focus-visible,
-textarea:focus-visible {
+textarea:focus-visible,
+summary:focus-visible {
   outline: 3px solid var(--sakura);
   outline-offset: 2px;
 }
@@ -172,7 +173,7 @@ h4 {
   color: var(--mut);
 }
 
-/* Punto 4: Zorro guía */
+/* Zorro guía */
 .kiko {
   display: flex;
   gap: 14px;
@@ -198,7 +199,7 @@ h4 {
   line-height: 1.48;
 }
 
-/* Punto 1 y Punto 2: Grilla de mundos y tarjetas tipo cuaderno japonés */
+/* Grilla de mundos y tarjetas tipo cuaderno japonés */
 .worlds {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -888,6 +889,188 @@ input {
   animation: fall linear infinite;
 }
 
+/* Nippon Radio */
+#radio {
+  position: relative;
+  z-index: 5;
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 12px clamp(16px, 3.2vw, 32px) 0;
+}
+
+.radio {
+  background: rgba(30, 40, 70, 0.92);
+  border: 1px solid var(--ink3);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.radio[open] {
+  border-color: rgba(240, 169, 189, 0.42);
+}
+
+.radio summary {
+  min-height: 54px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  list-style: none;
+  transition: background-color 0.16s ease;
+}
+
+.radio summary:hover {
+  background: rgba(45, 59, 102, 0.45);
+}
+
+.radio summary::-webkit-details-marker {
+  display: none;
+}
+
+.radio-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: 9px;
+  background: rgba(240, 169, 189, 0.15);
+  color: var(--sakura);
+  font-size: 1.25rem;
+}
+
+.radio summary b,
+.radio summary small {
+  display: block;
+}
+
+.radio summary b {
+  font-size: 0.92rem;
+  letter-spacing: -0.005em;
+}
+
+.radio summary small {
+  color: var(--mut);
+  font-size: 0.78rem;
+}
+
+.radio-arrow {
+  margin-left: auto;
+  color: var(--mut);
+  font-size: 1.05rem;
+  transition: transform 0.2s ease;
+}
+
+.radio[open] .radio-arrow {
+  transform: rotate(180deg);
+  color: var(--sakura);
+}
+
+.radio-content {
+  display: grid;
+  grid-template-columns: minmax(220px, 290px) minmax(0, 1fr);
+  gap: 20px;
+  align-items: center;
+  padding: 0 16px 18px;
+  border-top: 1px solid rgba(179, 186, 212, 0.12);
+}
+
+.radio-player {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  margin-top: 14px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #080c18;
+  border: 1px solid rgba(240, 169, 189, 0.18);
+}
+
+.radio-player iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.radio-settings {
+  min-width: 0;
+  padding-top: 12px;
+}
+
+.radio-settings label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--mut);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.radio-settings input {
+  width: 100%;
+  min-height: 44px;
+  margin: 0 0 10px;
+  padding: 10px 12px;
+  text-align: left;
+  font-size: 0.92rem;
+  background: var(--ink);
+  color: var(--txt);
+  border-color: var(--ink3);
+}
+
+.radio-settings input::placeholder {
+  color: var(--mut);
+  opacity: 0.7;
+}
+
+.radio-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.radio-actions button {
+  min-height: 44px;
+  padding: 0 15px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.radio-save {
+  background: var(--sakura);
+  color: var(--sumi);
+}
+
+.radio-reset {
+  background: var(--ink3);
+  color: var(--txt);
+}
+
+.radio-settings button:hover {
+  filter: brightness(1.06);
+  transform: translateY(-1px);
+}
+
+#radioStatus {
+  margin: 10px 0 4px;
+  color: var(--mut);
+  font-size: 0.8rem;
+}
+
+#radioFallback {
+  display: inline-block;
+  color: var(--sakura);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+#radioFallback:hover {
+  text-decoration: underline;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
@@ -923,7 +1106,22 @@ input {
   }
 }
 
-/* Punto 3 y Punto 4 en móvil */
+@media (max-width: 620px) {
+  #radio {
+    padding: 10px 14px 0;
+  }
+  .radio-content {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .radio-player {
+    max-width: 100%;
+  }
+  .radio-settings {
+    padding-top: 8px;
+  }
+}
+
 @media (max-width: 560px) {
   #app {
     padding: 18px 14px 58px;
@@ -984,7 +1182,12 @@ input {
     animation: none !important;
     transition: none !important;
   }
-  .petals {
+  .petals,
+  .radio-arrow {
     display: none;
+  }
+  .radio[open] .radio-arrow {
+    display: inline;
+    transform: none;
   }
 }
