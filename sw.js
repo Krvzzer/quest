@@ -3,7 +3,7 @@ const VERSION = 'nq11';
 const FILES = [
   './',
   './index.html',
-'./css/style.css?v=nq10',
+  './css/style.css?v=nq11',
   './js/main.js',
   './js/ui.js',
   './js/engine.js',
