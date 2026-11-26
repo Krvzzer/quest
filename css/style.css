@@ -992,7 +992,7 @@ input {
   }
 }
 /* NIPPON QUEST · YORU NO KYOTO — identidad visual */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;600;700;800&display=swap');
+
 :root {
   --ink:#10172b; --ink2:#192440; --ink3:#293654;
   --paper:#f5ecda; --paper-mut:#655d70; --sumi:#171827;
@@ -1070,3 +1070,19 @@ input,textarea{border-radius:13px;border-color:rgba(237,169,193,.35)}input:focus
 @media(max-width:560px){#top{min-height:68px;padding:10px 14px}#app{padding:24px 14px 64px}.brand b{display:inline;font-size:.78rem}.brand{letter-spacing:.1em}
  .kiko{padding:17px 18px;gap:13px;border-radius:18px}.fox,.fox .kuru-mark{width:46px;height:46px}.worlds{grid-template-columns:1fr;gap:12px}
  .world{min-height:0;padding:18px 19px}.panel{padding:18px}.card{padding:28px 18px;border-radius:20px}.kpis{gap:9px}.kpis div{padding:13px 9px}.kpis b{font-size:1.55rem}}
+
+
+/* NIPPON QUEST · lectura clara y presencia de Kuru */
+:root{--kana:"Noto Sans JP","Yu Gothic UI","Yu Gothic",sans-serif}
+.big,.big.long,.opt.glyph,.chip,.built,.mc{font-family:var(--kana);font-weight:500;font-feature-settings:"palt" 0;font-synthesis:none;text-shadow:none}
+.big{font-size:clamp(4rem,14vw,7rem);line-height:1.28;letter-spacing:.015em;font-weight:500}
+.big.long{font-size:clamp(1.9rem,6vw,2.8rem);line-height:1.5;letter-spacing:0}
+.opt.glyph{font-size:clamp(1.8rem,4.5vw,2.5rem);font-weight:500;line-height:1.4}
+.chip{font-size:1.2rem;font-weight:500}
+.built{font-size:clamp(1.8rem,5vw,2.6rem);font-weight:500;line-height:1.5}
+.mc{font-size:clamp(1.35rem,3.8vw,1.8rem);font-weight:500}
+.kiko{min-height:154px;padding-right:180px}
+.fox{width:132px;height:132px;position:absolute;right:22px;bottom:4px;z-index:2}
+.fox .kuru-guide{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 18px rgba(3,7,20,.28))}
+.kiko:after{content:"";width:150px;height:150px;right:10px;bottom:-44px;border-radius:50%;background:radial-gradient(circle,rgba(237,169,193,.17),transparent 68%)}
+@media(max-width:560px){.kiko{padding-right:105px;min-height:126px}.fox{width:96px;height:96px;right:6px;bottom:0}.big{font-size:clamp(3.6rem,18vw,5rem)}}
