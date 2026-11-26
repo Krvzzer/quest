@@ -13,6 +13,7 @@ const FILES = [
   './js/supabase-config.js',
   './manifest.webmanifest',
   './icons/kuru.svg',
+  './icons/kuru-guide.svg',
   
   
   './icons/apple-touch-icon.png'
