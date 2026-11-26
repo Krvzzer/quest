@@ -13,7 +13,6 @@ const FILES = [
   './js/supabase-config.js',
   './manifest.webmanifest',
   './icons/kuru.svg',
-  './icons/kuru-guide.svg',
   './icons/kuru-main.svg',
   './icons/kuru-happy.svg',
   './icons/kuru-explain.svg',
