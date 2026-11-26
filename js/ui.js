@@ -82,7 +82,7 @@ export function map(){
   view(`<section class="kiko"><div class="fox"><img class="kuru-guide" src="./icons/kuru-guide.svg" alt="Kuru, tu guía"></div><p>${E.advice()}</p></section>
   <h2>せかい</h2><div class="worlds">${ws}</div>
   <div class="two"><section class="panel"><h3>きょうのもくひょう</h3><ul class="missions">${ms}</ul></section>
-  <section class="panel"><h3>とくべつなれんしゅう</h3><div class="stack"><button class="btn" data-a="play:exam:all">さいしゅうしけん · 20</button><button class="btn alt" data-a="play:survival:all">サバイバル</button><button class="btn alt" data-a="play:mix:all">きょうのふくしゅう</button></div>
+  <section class="panel"><h3>とくべつなれんしゅう</h3><div class="stack"><button class="btn" data-a="play:exam:all">さいしゅうしけん · 20</button><button class="btn alt" data-a="play:survival:all">さばいばる</button><button class="btn alt" data-a="play:mix:all">きょうのふくしゅう</button></div>
   <p class="muted"><b>Examen:</b> 20 preguntas mezcladas de todos los kana que tenés abiertos; con 90% o más ganás un bonus.<br><b>Supervivencia:</b> 3 vidas y tiempo límite; mide cuánto retenés.<br><b>Repaso:</b> Entrenar con todo lo desbloqueado, priorizando lo que toca repasar.</p></section></div>`);
 }
 
