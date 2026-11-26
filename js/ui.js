@@ -5,7 +5,7 @@ import * as E from './engine.js';
 import * as Sync from './sync.js';
 
 const $=s=>document.querySelector(s),app=$('#app');
-const KURU_MARK = '<svg class="kuru-mark" viewBox="0 0 64 64" role="img" aria-label="Kuru"><path d="M10 25 17 5 29 17Q32 15 35 17L47 5 54 26Q58 32 55 41 51 55 32 59 13 55 9 41 6 32 10 25Z" fill="#f5ecda"/><path d="m14 23 5-12 7 12M50 23l-5-12-7 12" fill="#eda9c1"/><path d="M20 34q3-3 6 0M38 34q3-3 6 0" fill="none" stroke="#20213a" stroke-width="2.8" stroke-linecap="round"/><path d="M29 41q3 3 6 0" fill="none" stroke="#20213a" stroke-width="2.4" stroke-linecap="round"/><path d="M48 48q9 1 10-7" fill="none" stroke="#eda9c1" stroke-width="4" stroke-linecap="round"/></svg>';
+const KURU_MARK = '<img class="kuru-mark" src="./icons/kuru.svg" alt="Kuru">';
 const WORLD_ART={1:'hiragana',2:'dakuten',3:'combinations',4:'katakana',5:'vocabulary',6:'conversation'};
 const KURU_TIPS={
   1:'Vamos a conocer las formas básicas, una por una. Sin apuro: primero reconocerlas.',
