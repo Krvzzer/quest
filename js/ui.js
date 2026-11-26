@@ -93,7 +93,7 @@ export function map(){
   view(`<section class="kiko"><div class="fox"><img class="kuru-guide" src="./icons/kuru-guide.svg" alt="Kuru, tu guía"></div><p>${E.advice()}</p></section>
   <h2>せかい</h2><div class="worlds">${ws}</div>
   <div class="two"><section class="panel"><h3>きょうのもくひょう</h3><ul class="missions">${ms}</ul></section>
-  <section class="panel"><h3>とくべつなれんしゅう</h3><div class="stack"><button class="btn" data-a="play:exam:all">さいしゅうしけん · 20</button><button class="btn alt" data-a="play:survival:all">さばいばる</button><button class="btn alt" data-a="play:mix:all">きょうのふくしゅう</button></div>
+  <section class="panel special-practice"><h3>とくべつなれんしゅう</h3><div class="stack"><button class="btn" data-a="play:exam:all">さいしゅうしけん · 20</button><button class="btn alt" data-a="play:survival:all">さばいばる</button><button class="btn alt" data-a="play:mix:all">きょうのふくしゅう</button></div>
   <p class="muted"><b>Examen:</b> 20 preguntas mezcladas de todos los kana que tenés abiertos; con 90% o más ganás un bonus.<br><b>Supervivencia:</b> 3 vidas y tiempo límite; mide cuánto retenés.<br><b>Repaso:</b> Entrenar con todo lo desbloqueado, priorizando lo que toca repasar.</p></section></div>`);
 }
 
@@ -230,8 +230,8 @@ function insights(){
   const evo=days.map(d=>{const o=byDay[d];return`<li>${d===td?'Hoy':'Hace '+(td-d)+' d'}<span>${o.n?Math.round(o.ok/o.n*100):0}% · ${o.n} resp.</span></li>`}).join('')||'<small class="muted">Aún no hay sesiones registradas.</small>';
   const hist=(s.hist||[]).slice(-5).reverse().map(h=>`<li>${MODE_NAME[h.m]||h.m}<span>${h.ok}/${h.n}</span></li>`).join('');
   const dueChips=due.slice(0,16).map(i=>`<span class="chip s${E.rec(i.id).s}" title="${i.r[0]}">${i.jp}</span>`).join('')||'<small class="muted">Nada vencido. ¡Buen trabajo!</small>';
-  return`<h3>しゅうとくとふくしゅう</h3><div class="kpis"><div><b>${m}/${its.length}</b>dominados</div><div><b>${due.length}</b>para repasar hoy</div><div><b>${avg}</b>reconocimiento medio</div></div>
-  <div class="two"><section class="panel"><h3>きょうのふくしゅう</h3><div class="chips">${dueChips}</div></section><section class="panel"><h3>Precisión por día</h3><ul class="missions">${evo}</ul></section></div>${hist?`<section class="panel"><h3>Últimas sesiones</h3><ul class="missions">${hist}</ul></section>`:''}`;
+  return`<h3>しゅうとくとふくしゅう</h3><div class="kpis"><div><b>${m}/${its.length}</b><small class="kpi-label">dominados</small></div><div><b>${due.length}</b><small class="kpi-label">para repasar hoy</small></div><div><b>${avg}</b><small class="kpi-label">reconocimiento medio</small></div></div>
+  <div class="two"><section class="panel"><h3>きょうのふくしゅう</h3><div class="chips">${dueChips}</div></section><section class="panel"><h3 class="stats-section-title">Precisión por día</h3><ul class="missions">${evo}</ul></section></div>${hist?`<section class="panel"><h3>Últimas sesiones</h3><ul class="missions">${hist}</ul></section>`:''}`;
 }
 
 // Sincronización online (Supabase). La lógica está en sync.js
@@ -284,10 +284,10 @@ function stats(){
   S=null;const s=get(),acc=s.tot?Math.round(s.ok/s.tot*100):0;
   const errs=Object.entries(s.items).filter(([,r])=>r.ko>0).sort((a,b)=>b[1].ko-a[1].ko).slice(0,8).map(([k,r])=>`<span class="chip s${r.s}" title="${r.ko} errores">${k.replace('w:','')}<sup>${r.ko}</sup></span>`).join('')||'<small class="muted">Sin errores registrados.</small>';
   const cf=Object.entries(s.conf).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([k,n])=>`<li>${k.split('>').join(' ≠ ')}<span>${n}×</span></li>`).join('')||'<small class="muted">Aún no hay confusiones registradas.</small>';
-  view(`<h2>きろく</h2><div class="kpis"><div><b>${acc}%</b>precisión</div><div><b>${s.tot}</b>respuestas</div><div><b>${s.best}</b>mejor racha</div><div><b>${E.level(s.xp)}</b>nivel</div></div>
+  view(`<h2>きろく</h2><div class="kpis"><div><b>${acc}%</b><small class="kpi-label">precisión</small></div><div><b>${s.tot}</b><small class="kpi-label">respuestas</small></div><div><b>${s.best}</b><small class="kpi-label">mejor racha</small></div><div><b>${E.level(s.xp)}</b><small class="kpi-label">nivel</small></div></div>
   ${insights()}
-  <div class="two"><section class="panel"><h3>Errores frecuentes</h3><div class="chips">${errs}</div></section><section class="panel"><h3>Confusiones</h3><ul class="missions">${cf}</ul></section></div>
-  <h3>Dominados y pendientes</h3>${WORLDS.map(w=>`<section class="panel"><h4>${w.e} ${w.n} · ${Math.round(E.frac(w)*100)}%</h4>${E.unlocked(w)?chips(w):'<small class="muted">Bloqueado</small>'}</section>`).join('')}
+  <div class="two"><section class="panel"><h3 class="stats-section-title">Errores frecuentes</h3><div class="chips">${errs}</div></section><section class="panel"><h3 class="stats-section-title">Confusiones</h3><ul class="missions">${cf}</ul></section></div>
+  <h3 class="stats-section-title">Dominados y pendientes</h3>${WORLDS.map(w=>`<section class="panel"><h4>${w.e} ${w.n} · ${Math.round(E.frac(w)*100)}%</h4>${E.unlocked(w)?chips(w):'<small class="muted">Bloqueado</small>'}</section>`).join('')}
   <h3>めだる</h3><div class="medals">${E.ACH.map(a=>`<div class="m ${s.ach[a.id]?'on':''}"><b>${s.ach[a.id]?'🏅':'⚪'} ${a.t}</b><small>${a.d}</small></div>`).join('')}</div>
   ${syncPanel()}<h3>Sincronización manual (respaldo)</h3><section class="panel"><p class="muted">Copiá tu progreso acá y pegalo en el otro dispositivo. Se combinan: por cada carácter gana lo practicado más recientemente, y no se pierde nada de ninguno de los dos.</p>
   <div class="row"><button class="btn" data-a="exp">Copiar mi progreso</button><button class="btn alt" data-a="dl">Descargar copia</button></div>
