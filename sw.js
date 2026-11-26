@@ -1,4 +1,4 @@
-const VERSION = 'nq12';
+const VERSION = 'nq13';
 
 const FILES = [
   './',
@@ -12,9 +12,9 @@ const FILES = [
   './js/data.js',
   './js/supabase-config.js',
   './manifest.webmanifest',
-  './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/icon-maskable-512.png',
+  './icons/kuru.svg',
+  
+  
   './icons/apple-touch-icon.png'
 ];
 
