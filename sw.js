@@ -1,4 +1,4 @@
-const VERSION = 'nq10';
+const VERSION = 'nq11';
 
 const FILES = [
   './',
