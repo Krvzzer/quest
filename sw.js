@@ -1,9 +1,9 @@
-const VERSION = 'nq15';
+const VERSION = 'nq16';
 
 const FILES = [
   './',
   './index.html',
-  './css/style.css?v=nq14',
+  './css/style.css?v=nq16',
   './js/main.js',
   './js/ui.js',
   './js/engine.js',

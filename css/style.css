@@ -1107,3 +1107,65 @@ input,textarea{border-radius:13px;border-color:rgba(237,169,193,.35)}input:focus
 @media(max-width:820px){.world{min-height:230px;grid-template-rows:100px auto auto auto auto}.world-art-wrap{height:100px}}
 @media(max-width:560px){.world{min-height:0;grid-template-rows:118px auto auto auto auto;padding:14px 16px}.world-art-wrap{height:118px}.world-hero{gap:12px;padding:14px 15px}.world-hero-art{width:104px;height:104px}.kuru-mentor{gap:10px;padding:10px 13px}.mentor-kuru{width:56px;height:56px}}
 @media(prefers-reduced-motion:reduce){.world-art{transition:none}}
+
+
+/* Ajustes puntuales · Kuru, portada y legibilidad de progreso */
+.fox .kuru-guide,
+.mentor-kuru {
+  display: block;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  object-position: center;
+  flex: none;
+}
+
+.fox .kuru-guide {
+  width: 100%;
+  height: 100%;
+}
+
+.mentor-kuru {
+  width: 68px;
+  height: 68px;
+}
+
+.special-practice {
+  padding-bottom: 30px;
+}
+
+.special-practice > p:last-child {
+  margin-bottom: 4px;
+  line-height: 1.65;
+}
+
+.kpis .kpi-label {
+  display: block;
+  margin-top: 5px;
+  color: #c4cadd;
+  font-size: .78rem;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: .015em;
+}
+
+.stats-section-title {
+  margin: 0 0 14px;
+  color: #f4dce7;
+  font-size: 1rem;
+  font-weight: 650;
+  line-height: 1.35;
+  letter-spacing: .035em;
+}
+
+@media (max-width: 560px) {
+  .mentor-kuru {
+    width: 56px;
+    height: 56px;
+  }
+  .special-practice {
+    padding-bottom: 24px;
+  }
+  .kpis .kpi-label {
+    font-size: .76rem;
+  }
+}
