@@ -3,11 +3,11 @@
 
 const STORAGE_KEY = 'nippon:radio';
 const YOUTUBE_VIDEO_ID = '1Tl2FtV06qo';
-const YOUTUBE_WATCH_URL = \`https://www.youtube.com/live/\${YOUTUBE_VIDEO_ID}\`;
+const YOUTUBE_WATCH_URL = `https://www.youtube.com/live/${YOUTUBE_VIDEO_ID}`;
 const YOUTUBE_IFRAME_API_URL = 'https://www.youtube.com/iframe_api';
 
 const svg = (body, size = 18) =>
-  \`<svg viewBox="0 0 24 24" width="\${size}" height="\${size}" aria-hidden="true" focusable="false">\${body}</svg>\`;
+  `<svg viewBox="0 0 24 24" width="${size}" height="${size}" aria-hidden="true" focusable="false">${body}</svg>`;
 
 const ICONS = {
   play: svg('<path d="M8 5v14l11-7z" fill="currentColor"/>'),
@@ -72,7 +72,7 @@ function loadYouTubeIframeApi() {
       }
     };
 
-    const existingScript = document.querySelector(\`script[src="\${YOUTUBE_IFRAME_API_URL}"]\`);
+    const existingScript = document.querySelector(`script[src="${YOUTUBE_IFRAME_API_URL}"]`);
     if (!existingScript) {
       const script = document.createElement('script');
       script.src = YOUTUBE_IFRAME_API_URL;
@@ -89,7 +89,7 @@ function loadYouTubeIframeApi() {
   return apiLoadPromise;
 }
 
-const CSS = \`
+const CSS = `
 #nq-radio{position:fixed;left:max(16px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom));z-index:30;display:flex;align-items:flex-end;gap:10px;color:#F5ECDA;font:500 13px/1.35 Inter,system-ui,sans-serif}
 #nq-radio button,#nq-radio a{font:inherit;cursor:pointer}
 #nq-radio button:focus-visible,#nq-radio input:focus-visible,#nq-radio a:focus-visible{outline:2px solid #D6BD8A;outline-offset:3px}
@@ -119,7 +119,7 @@ const CSS = \`
 #nq-radio.is-playing .nr-fab{box-shadow:0 0 0 4px rgba(235,167,186,.12),0 8px 24px rgba(3,7,20,.35)}
 @media(max-width:520px){#nq-radio{left:max(10px,env(safe-area-inset-left));bottom:max(10px,env(safe-area-inset-bottom));gap:7px}#nq-radio .nr-panel{width:min(310px,calc(100vw - 74px));padding:9px 10px}#nq-radio .nr-embed-wrap{max-width:200px}#nq-radio .nr-fab{width:44px;height:44px;min-height:44px}}
 @media(prefers-reduced-motion:reduce){#nq-radio *,#nq-radio *::before,#nq-radio *::after{animation:none!important;transition:none!important}}
-\`;
+`;
 
 function createRadio() {
   const prefs = readPreferences();
@@ -132,34 +132,34 @@ function createRadio() {
     playerReady: false,
     initializing: false,
     pendingPlay: false,
-    hostId: \`nq-yt-player-\${Math.random().toString(36).slice(2, 8)}\`
+    hostId: `nq-yt-player-${Math.random().toString(36).slice(2, 8)}`
   };
 
   const root = document.createElement('div');
   root.id = 'nq-radio';
-  root.innerHTML = \`
-    <button class="nr-fab" type="button" aria-label="Abrir Nippon Radio" aria-controls="nq-radio-panel" aria-expanded="false">\${ICONS.note}</button>
+  root.innerHTML = `
+    <button class="nr-fab" type="button" aria-label="Abrir Nippon Radio" aria-controls="nq-radio-panel" aria-expanded="false">${ICONS.note}</button>
     <section class="nr-panel" id="nq-radio-panel" aria-label="Nippon Radio — Lo-fi Live" hidden>
       <div class="nr-top">
-        <button class="nr-play" type="button" aria-label="Reproducir Lo-fi Live" aria-pressed="false">\${ICONS.play}</button>
+        <button class="nr-play" type="button" aria-label="Reproducir Lo-fi Live" aria-pressed="false">${ICONS.play}</button>
         <div class="nr-meta">
           <span class="nr-title">Nippon Radio</span>
           <span class="nr-sub">Lo-fi Live</span>
           <span class="nr-status" role="status" aria-live="polite">Lista para reproducir</span>
         </div>
         <div class="nr-actions">
-          <a class="nr-ext" href="\${YOUTUBE_WATCH_URL}" target="_blank" rel="noopener noreferrer" aria-label="Abrir directo original en YouTube">\${ICONS.external}</a>
-          <button class="nr-close" type="button" aria-label="Ocultar Nippon Radio">\${ICONS.close}</button>
+          <a class="nr-ext" href="${YOUTUBE_WATCH_URL}" target="_blank" rel="noopener noreferrer" aria-label="Abrir directo original en YouTube">${ICONS.external}</a>
+          <button class="nr-close" type="button" aria-label="Ocultar Nippon Radio">${ICONS.close}</button>
         </div>
       </div>
       <div class="nr-controls">
         <span class="nr-vol-label">Volumen</span>
-        <input class="nr-volume" type="range" min="0" max="100" step="1" value="\${Math.round(state.volume * 100)}" aria-label="Volumen de Nippon Radio">
+        <input class="nr-volume" type="range" min="0" max="100" step="1" value="${Math.round(state.volume * 100)}" aria-label="Volumen de Nippon Radio">
       </div>
       <div class="nr-embed-wrap" hidden>
-        <div id="\${state.hostId}"></div>
+        <div id="${state.hostId}"></div>
       </div>
-    </section>\`;
+    </section>`;
   document.body.append(root);
 
   const fab = root.querySelector('.nr-fab');
