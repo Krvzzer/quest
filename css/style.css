@@ -1171,24 +1171,24 @@ input,textarea{border-radius:13px;border-color:rgba(237,169,193,.35)}input:focus
 }
 
 
-/* Kuru · marcos consistentes, sin filtros destructivos */
+/* Kuru · original PNG artwork in a shared natural-size frame */
 .kuru-mark{display:block;width:42px;height:42px;flex:none;object-fit:contain;filter:drop-shadow(0 3px 9px rgba(237,169,193,.18))}
-.fox{width:112px;height:136px;flex:none;display:grid;place-items:center}
-.fox .kuru-guide{display:block;width:100%;height:100%;object-fit:contain;object-position:center;background:var(--paper);border-radius:18px;padding:5px}
+.fox{width:112px;height:129px;flex:none;display:grid;place-items:center}
+.fox .kuru-guide{display:block;width:100%;height:100%;object-fit:contain;object-position:center;background:#fff;border-radius:14px;padding:0}
 .kuru-mentor{display:flex;align-items:center;gap:16px}
-.mentor-kuru{display:block;width:112px;height:136px;flex:none;object-fit:contain;object-position:center;background:var(--paper);border-radius:16px;padding:5px}
+.mentor-kuru{display:block;width:112px;height:129px;flex:none;object-fit:contain;object-position:center;background:#fff;border-radius:14px;padding:0}
 .fb-kuru{display:flex;align-items:center;gap:14px;margin-bottom:12px}
-.fb-kuru img{display:block;width:104px;height:136px;flex:none;object-fit:contain;object-position:center;background:var(--paper);border-radius:16px;padding:5px}
+.fb-kuru img{display:block;width:112px;height:129px;flex:none;object-fit:contain;object-position:center;background:#fff;border-radius:14px;padding:0}
 .fb-kuru p{margin:.25rem 0 0}
-.result-kuru{display:block;width:min(220px,55vw);height:270px;object-fit:contain;object-position:center;margin:0 auto 8px;background:var(--paper);border-radius:20px;padding:8px}
+.result-kuru{display:block;width:min(220px,55vw);height:253px;object-fit:contain;object-position:center;margin:0 auto 8px;background:#fff;border-radius:18px;padding:0}
 .empty-history{display:flex;align-items:center;gap:14px;padding:8px 0}
-.empty-history img{width:104px;height:136px;object-fit:contain;object-position:center;flex:none;background:var(--paper);border-radius:16px;padding:5px}
+.empty-history img{width:112px;height:129px;object-fit:contain;object-position:center;flex:none;background:#fff;border-radius:14px;padding:0}
 .empty-history small{line-height:1.5}
 @media(max-width:560px){
  .kuru-mark{width:36px;height:36px}
- .fox{width:88px;height:112px}
- .mentor-kuru{width:88px;height:112px}
- .fb-kuru img{width:82px;height:112px}
- .result-kuru{width:min(190px,58vw);height:220px}
- .empty-history img{width:82px;height:112px}
+ .fox{width:88px;height:101px}
+ .mentor-kuru{width:88px;height:101px}
+ .fb-kuru img{width:88px;height:101px}
+ .result-kuru{width:min(190px,58vw);height:219px}
+ .empty-history img{width:88px;height:101px}
 }
