@@ -245,4 +245,28 @@ export const WORLDS=[
 export const IT={};WORLDS.forEach(w=>w.items.forEach(i=>IT[i.id]=i));
 // Grupos de caracteres parecidos (combate y distractores)
 export const SIM=['らり','ぬめ','はほ','るろ','われね','さち','ぎじ','ずづ','じぢ','ばぱ','ぼぽ','だた','ぐく','ごこ','ざさ','ぜせ','ぞそ','べへ','びひ','ぶふ','づつ','いり','ぬの','シツ','ソン','クタ','ウフ','ノメ','ヌス','コユ','ミシ','ワウ','ガカ','ジシ','ツソ'];
-export const TIPS={し:'Es «shi», no «si».',ち:'«chi», como en «chico».',つ:'«tsu»: t+s+u en un solo golpe.',ふ:'Entre f y h, con los labios casi sin tocarse.',ら:'Fila R: una r suave de un solo toque, entre r y l. No es la rr española.',り:'«ri» con r suave, no vibrante.',る:'«ru» con r suave.',れ:'«re» con r suave.',ろ:'«ro» con r suave.',ん:'Nasal final, «n».',を:'Se lee «o»; solo marca el objeto directo.',は:'Como partícula se lee «wa».',じ:'No es la «j» española: suena como la «j» de «jam» en inglés.',ぢ:'Suena igual que じ (ji); casi no se usa.',づ:'Suena igual que ず (zu); casi no se usa.',が:'Con ゛ la k pasa a g (siempre «g» de «gato»).',ぎ:'«gi» siempre suave: como «guitarra».',ひ:'«hi»: la h es suave, no la «j» española.'};
+export const TIPS={
+  し:'Es «shi», no «si».',
+  ち:'«chi», como en «chico».',
+  つ:'«tsu»: t+s+u en un solo golpe.',
+  ふ:'Entre f y h, con los labios casi sin tocarse.',
+  へ:'«he»: la h es suave, nunca la jota española.',
+  ほ:'«ho»: no confundir con は (ha).',
+  ら:'Fila R: una r suave de un solo toque, entre r y l. No es la rr española.',
+  り:'«ri» con r suave, no vibrante.',
+  る:'«ru» con r suave.',
+  れ:'«re» con r suave.',
+  ろ:'«ro» con r suave.',
+  ん:'Nasal final, «n».',
+  を:'Se lee «o»; solo marca el objeto directo.',
+  は:'Como partícula se lee «wa».',
+  じ:'Se romaniza «ji». Suena parecido a la «j» de «jam» en inglés, no a la jota española.',
+  ぢ:'Suena igual que じ (ji); casi no se usa.',
+  づ:'Suena igual que ず (zu); casi no se usa.',
+  が:'«ga»: g fuerte, como en «gato». La marca ゛ cambia か (ka) a が (ga).',
+  ぎ:'«gi»: g fuerte, como el sonido «gui» de «guitarra». Se escribe «gi», sin agregar una u. No suena «ji».',
+  ぐ:'«gu»: g fuerte, como en «gusto». Se escribe «gu» y la u sí se pronuncia.',
+  げ:'«ge»: g fuerte, como el sonido «gue» de «guerra» (la u no se pronuncia en español). No suena como la j de «gente».',
+  ご:'«go»: g fuerte, como en «gota».',
+  ひ:'«hi»: la h es suave, no la «j» española.'
+};
