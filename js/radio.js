@@ -22,8 +22,9 @@ let singleton = null;
 function readPreferences() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const savedVolume = Number.isFinite(saved.vol) ? saved.vol : saved.volume;
     return {
-      volume: Number.isFinite(saved.volume) ? Math.min(1, Math.max(0, saved.volume)) : 0.5,
+      volume: Number.isFinite(savedVolume) ? Math.min(1, Math.max(0, savedVolume)) : 0.5,
       open: saved.open === true
     };
   } catch {
@@ -33,7 +34,7 @@ function readPreferences() {
 
 function writePreferences(state) {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ volume: state.volume, open: state.open }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ vol: state.volume, open: state.open }));
   } catch {
     // El almacenamiento puede estar bloqueado; la radio sigue funcionando en memoria.
   }
@@ -174,6 +175,14 @@ function createRadio() {
       state.bus = bus;
       state.melody = melody;
       state.ambientSources = [vinyl, hiss];
+      context.addEventListener('statechange', () => {
+        if (context.state !== 'running' && state.playing) {
+          state.playing = false;
+          clearInterval(state.timer);
+          state.timer = null;
+          render();
+        }
+      });
     } catch (error) {
       context.close().catch(() => {});
       state.context = null;
