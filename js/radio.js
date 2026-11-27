@@ -43,7 +43,7 @@ const CSS = `
 #nq-radio{position:fixed;left:max(16px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom));z-index:30;display:flex;align-items:center;gap:10px;color:var(--txt,#f7f1f5);font:500 13px/1.35 Inter,system-ui,sans-serif}
 #nq-radio button{font:inherit;cursor:pointer}
 #nq-radio button:focus-visible,#nq-radio input:focus-visible{outline:2px solid var(--gold,#d6bd8a);outline-offset:3px}
-#nq-radio .nr-fab{width:48px;height:48px;min-height:48px;display:grid;place-items:center;border:1px solid rgba(235,167,186,.38);border-radius:50%;background:linear-gradient(145deg,var(--sakura,#eba7ba),var(--sakura-dusk,#c87996));color:#1d2945;box-shadow:0 8px 24px rgba(3,7,20,.35)}
+#nq-radio .nr-fab{width:48px;height:48px;min-height:48px;display:grid;place-items:center;border:1px solid rgba(235,167,186,.38);border-radius:50%;background:linear-gradient(145deg,var(--sakura,#eba7ba),var(--sakura-dark,#c87996));color:#1d2945;box-shadow:0 8px 24px rgba(3,7,20,.35)}
 #nq-radio .nr-fab:hover{filter:brightness(1.06);transform:translateY(-1px)}
 #nq-radio .nr-panel{display:flex;align-items:center;gap:11px;min-height:58px;padding:7px 10px 7px 7px;border:1px solid rgba(214,189,138,.22);border-radius:18px;background:linear-gradient(145deg,rgba(29,41,69,.97),rgba(16,23,43,.97));box-shadow:0 12px 32px rgba(3,7,20,.38);backdrop-filter:blur(16px)}
 #nq-radio .nr-panel[hidden]{display:none}
@@ -63,21 +63,10 @@ const CSS = `
 function createRadio() {
   const prefs = readPreferences();
   const state = {
-    volume: prefs.volume,
-    open: prefs.open,
-    playing: false,
-    starting: false,
-    context: null,
-    master: null,
-    bus: null,
-    melody: null,
-    noiseBuffer: null,
-    timer: null,
-    suspendTimer: null,
-    step: 0,
-    nextTime: 0,
-    started: false,
-    ambientSources: []
+    volume: prefs.volume, open: prefs.open, playing: false, starting: false, error: '',
+    context: null, master: null, bus: null, melody: null, noiseBuffer: null,
+    timer: null, suspendTimer: null, step: 0, nextTime: 0, started: false,
+    ambientSources: [], voices: new Set()
   };
 
   const root = document.createElement('div');
@@ -110,13 +99,12 @@ function createRadio() {
     playButton.disabled = state.starting;
     playButton.setAttribute('aria-label', state.playing ? 'Pausar la radio' : 'Reproducir la radio');
     playButton.setAttribute('aria-pressed', String(state.playing));
-    status.textContent = state.starting ? 'Preparando audio…' : state.playing ? 'Reproduciendo · Lo-fi generativo' : state.context ? 'En pausa' : 'Lista para reproducir';
+    status.textContent = state.starting ? 'Preparando audio…' : state.error || (state.playing ? 'Reproduciendo · Lo-fi generativo' : state.context ? 'En pausa' : 'Lista para reproducir');
   }
 
   function setMasterVolume(target) {
     if (!state.master || !state.context) return;
-    const value = target ? state.volume * 0.7 : 0;
-    state.master.gain.setTargetAtTime(value, state.context.currentTime, 0.06);
+    state.master.gain.setTargetAtTime(target ? state.volume * 0.7 : 0, state.context.currentTime, 0.06);
   }
 
   function makeNoiseBuffer(seconds, sampleFn) {
@@ -131,7 +119,6 @@ function createRadio() {
     if (state.context) return;
     const context = new AudioContextClass();
     state.context = context;
-
     try {
       const master = context.createGain();
       const lowpass = context.createBiquadFilter();
@@ -197,7 +184,9 @@ function createRadio() {
   }
 
   function disconnectOnEnd(source, nodes) {
+    state.voices.add(source);
     source.addEventListener('ended', () => {
+      state.voices.delete(source);
       try { source.disconnect(); } catch {}
       nodes.forEach(node => { try { node.disconnect(); } catch {} });
     }, { once: true });
@@ -283,6 +272,7 @@ function createRadio() {
   async function start() {
     if (state.playing || state.starting) return;
     state.starting = true;
+    state.error = '';
     render();
     try {
       if (state.suspendTimer) {
@@ -303,7 +293,7 @@ function createRadio() {
       state.timer = setInterval(schedule, 200);
     } catch (error) {
       console.error('[Nippon Radio] No se pudo iniciar el audio:', error);
-      status.textContent = 'No se pudo iniciar el audio. Revisá los permisos del navegador.';
+      state.error = 'No se pudo iniciar el audio. Revisá los permisos del navegador.';
     } finally {
       state.starting = false;
       render();
@@ -321,6 +311,11 @@ function createRadio() {
     state.suspendTimer = setTimeout(() => {
       state.suspendTimer = null;
       if (!state.playing && state.context === context && context?.state === 'running') {
+        // Descarta las notas que estaban agendadas por adelantado antes de suspender.
+        for (const voice of state.voices) {
+          try { voice.stop(); } catch {}
+        }
+        state.started = false;
         context.suspend().catch(error => console.warn('[Nippon Radio] No se pudo pausar el contexto:', error));
       }
     }, 320);
@@ -356,7 +351,6 @@ function createRadio() {
   style.id = 'nq-radio-styles';
   style.textContent = CSS;
   document.head.append(style);
-
   render();
   return root;
 }
