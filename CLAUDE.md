@@ -43,3 +43,12 @@ No afirmar que una prueba pasó si no se ejecutó. Separar hechos verificados de
 
 ## Autonomía y límites
 Cuestionar propuestas cuando haya una razón técnica o pedagógica concreta y explicar el motivo. No hacer refactorizaciones generales, cambios de arquitectura ni modificaciones fuera del alcance acordado sin autorización. Mantener los cambios pequeños, revisables y separados en Pull Requests por objetivo.
+
+## Skills especializadas del proyecto
+
+Usar las skills del repositorio cuando la tarea coincida con su ámbito:
+- `japanese-pedagogy-auditor`: revisar exactitud lingüística, progresión, ejercicios, errores y retención.
+- `nippon-quest-qa`: diseñar y ejecutar pruebas funcionales, de regresión, persistencia y PWA/offline.
+- `yoru-design-guardian`: revisar identidad visual, Kuru, legibilidad, responsive y accesibilidad.
+
+Para tareas que afecten varios ámbitos, invocar las skills relevantes y reconciliar sus hallazgos. La auditoría pedagógica tiene prioridad cuando una decisión visual o técnica pueda perjudicar el aprendizaje. Las skills no amplían la autorización de cambios: se mantienen los límites de autonomía de este archivo y del pedido explícito del usuario.
